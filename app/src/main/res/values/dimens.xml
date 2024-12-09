@@ -1,0 +1,4 @@
+<resources>
+    <!-- Define the width of a quiz card -->
+    <dimen name="quiz_card_width">150dp</dimen>
+</resources>
