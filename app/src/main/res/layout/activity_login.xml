@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAF6F6"
+    android:padding="16dp">
+
+    <!-- Main container to center content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp">
+
+        <!-- Title with Illustration -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <ImageView
+                android:id="@+id/login_illustration"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Login Illustration"
+                android:src="@drawable/login"
+                android:scaleType="centerCrop"
+                android:background="@drawable/circle_background" />
+
+            <TextView
+                android:id="@+id/login_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome Back!"
+                android:textSize="24sp"
+                android:textColor="#333333"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="8dp" />
+        </LinearLayout>
+
+        <!-- Email Input -->
+        <EditText
+            android:id="@+id/input_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email Address"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif" />
+
+        <!-- Password Input -->
+        <EditText
+            android:id="@+id/input_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="sans-serif" />
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:backgroundTint="#00A896"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="16dp"
+            android:padding="12dp"
+            android:elevation="4dp" />
+
+        <!-- Forgot Password Link -->
+        <TextView
+            android:id="@+id/forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot your password?"
+            android:textSize="14sp"
+            android:textColor="#00A896"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="16dp"
+            android:gravity="center" />
+
+        <!-- Link to Register -->
+        <TextView
+            android:id="@+id/link_to_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? Register now"
+            android:textSize="14sp"
+            android:textColor="#00A896"
+            android:fontFamily="sans-serif"
+            android:gravity="center" />
+    </LinearLayout>
+</ScrollView>
