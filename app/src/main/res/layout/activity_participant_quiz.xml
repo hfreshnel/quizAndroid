@@ -50,6 +50,7 @@
         android:layout_gravity="center"
         android:layout_marginHorizontal="32dp"
         android:layout_marginVertical="16dp"
+        android:layout_marginTop="34dp"
         android:backgroundTint="#5BC8C7"
         android:elevation="4dp"
         android:gravity="center"
@@ -57,9 +58,10 @@
         android:text="Valider"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="520dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button4"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button3"
