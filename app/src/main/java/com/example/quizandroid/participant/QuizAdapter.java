@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizandroid.R;
+import com.example.quizandroid.model.Quiz;
 
 import java.util.List;
 

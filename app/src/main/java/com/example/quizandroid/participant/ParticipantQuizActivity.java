@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.quizandroid.R;
 
-public class QuizActivity extends AppCompatActivity {
+public class ParticipantQuizActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

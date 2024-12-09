@@ -10,24 +10,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizandroid.R;
-import com.example.quizandroid.participant.UserMainActivity;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.example.quizandroid.participant.ParticipantListQuizActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private Button loginButton;
+
+    // Static JSON data for testing
+    private static final String MOCK_USER_EMAIL = "testuser@example.com";
+    private static final String MOCK_USER_PASSWORD = "password123";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,58 +46,44 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Make the network request (using OkHttp here)
-        sendLoginRequest(email, password);
+        // Simulate a login attempt with static JSON data
+        JSONObject jsonResponse = simulateLoginRequest(email, password);
+
+        // Handle the simulated response
+        try {
+            String status = jsonResponse.getString("status");
+            if ("success".equals(status)) {
+                runOnUiThread(() -> {
+                    Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
+                    // Redirect to UserMainActivity
+                    Intent intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                    startActivity(intent);
+                    finish();  // Optional: Finish current activity to prevent going back to login
+                });
+            } else {
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Email ou mot de passe incorrect", Toast.LENGTH_SHORT).show());
+            }
+        } catch (JSONException e) {
+            runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur lors du traitement de la réponse", Toast.LENGTH_SHORT).show());
+        }
     }
 
-    private void sendLoginRequest(String email, String password) {
-        OkHttpClient client = new OkHttpClient();
-
-        FormBody formBody = new FormBody.Builder()
-                .add("email", email)
-                .add("password", password)
-                .build();
-
-        Request request = new Request.Builder()
-                .url("http://api-url/public/auth/login")
-                .post(formBody)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur de connexion", Toast.LENGTH_SHORT).show());
+    // Simulate a login request with static data
+    private JSONObject simulateLoginRequest(String email, String password) {
+        JSONObject jsonResponse = new JSONObject();
+        try {
+            // Simulate a successful login if email and password match the static values
+            if (MOCK_USER_EMAIL.equals(email) && MOCK_USER_PASSWORD.equals(password)) {
+                jsonResponse.put("status", "success");
+                jsonResponse.put("message", "Login successful");
+                jsonResponse.put("user", new JSONObject().put("email", email));
+            } else {
+                jsonResponse.put("status", "failure");
+                jsonResponse.put("message", "Invalid email or password");
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    try {
-                        // Mock response (replace with actual backend response once available)
-                        String mockResponse = "{ \"status\": \"success\", \"message\": \"Login successful\", \"user\": { \"id\": 1, \"name\": \"Seifbh\", \"email\": \"" + email + "\" } }";
-                        JSONObject jsonResponse = new JSONObject(mockResponse);
-
-                        // Handle successful login response
-                        String status = jsonResponse.getString("status");
-                        if ("success".equals(status)) {
-                            runOnUiThread(() -> {
-                                Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
-                                // Redirect to UserMainActivity
-                                Intent intent = new Intent(LoginActivity.this, UserMainActivity.class);
-                                startActivity(intent);
-                                finish();  // Optional: Finish current activity to prevent going back to login
-                            });
-                        } else {
-                            runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Email ou mot de passe incorrect", Toast.LENGTH_SHORT).show());
-                        }
-
-                    } catch (JSONException e) {
-                        runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur lors du traitement de la réponse", Toast.LENGTH_SHORT).show());
-                    }
-                } else {
-                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Email ou mot de passe incorrect", Toast.LENGTH_SHORT).show());
-                }
-            }
-        });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonResponse;
     }
 }

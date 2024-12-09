@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizandroid.R;
+import com.example.quizandroid.model.Quiz;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserMainActivity extends AppCompatActivity {
+public class ParticipantListQuizActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private QuizAdapter adapter;
@@ -42,7 +43,7 @@ public class UserMainActivity extends AppCompatActivity {
         // Create and set the adapter for the RecyclerView
         adapter = new QuizAdapter(quizList, quiz -> {
             // Handle click event when a quiz card is clicked
-            Intent intent = new Intent(UserMainActivity.this, QuizActivity.class);
+            Intent intent = new Intent(ParticipantListQuizActivity.this, ParticipantQuizActivity.class);
             intent.putExtra("quizTitle", quiz.getTitle()); // Pass quiz title or ID
             startActivity(intent);
         });
