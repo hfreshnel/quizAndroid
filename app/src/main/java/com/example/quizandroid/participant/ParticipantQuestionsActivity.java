@@ -1,14 +1,17 @@
-package com.example.quizandroid;
+package com.example.quizandroid.participant;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.quizandroid.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ParticipantQuizActivity extends AppCompatActivity {
+public class ParticipantQuestionsActivity extends AppCompatActivity {
 
     private String correctAnswer;
     private Button selectedButton = null;
