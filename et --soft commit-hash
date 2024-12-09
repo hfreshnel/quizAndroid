@@ -1,0 +1,35 @@
+[33mcommit 5145892dc6fed355587c036ea188084e9932d905[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeatureRegisterLogin[m[33m, [m[1;31morigin/feature-API[m[33m, [m[1;32mfeature-API[m[33m)[m
+Author: Nasim Benyacoub <nasimbenyacoub97@gmail.com>
+Date:   Mon Dec 9 14:19:30 2024 +0100
+
+    add package for structure
+
+[33mcommit fbc2e2d161a8c3f1682b90273e509682d157ba41[m[33m ([m[1;31morigin/featureRegisterLogin[m[33m)[m
+Author: seif0099 <seifbenhassen99@gmail.com>
+Date:   Mon Dec 9 13:51:06 2024 +0100
+
+    add loginTest
+
+[33mcommit 0717bfdec205b699983db50b82a2b0647ed29da8[m
+Author: seif0099 <seifbenhassen99@gmail.com>
+Date:   Mon Dec 9 12:02:52 2024 +0100
+
+    add User Main activity
+
+[33mcommit 6cb690662ab4b1d986a923ccde9ca8ebaa91119c[m
+Author: seif0099 <seifbenhassen99@gmail.com>
+Date:   Mon Dec 9 10:08:48 2024 +0100
+
+    add Register Login Activities
+
+[33mcommit 0d3fb3ee9a13008a741692043acb173908bbe12b[m[33m ([m[1;32mmaster[m[33m)[m
+Author: seif0099 <seifbenhassen99@gmail.com>
+Date:   Mon Dec 2 17:07:24 2024 +0100
+
+    first commit
+
+[33mcommit 5d8ff3b6066875154c2e99d8e7d0993a14a2d66d[m
+Author: seif0099 <seifbenhassen99@gmail.com>
+Date:   Mon Dec 2 17:03:21 2024 +0100
+
+    first commit
