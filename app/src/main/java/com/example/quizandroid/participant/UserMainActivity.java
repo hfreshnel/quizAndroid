@@ -1,4 +1,4 @@
-package com.example.quizandroid;
+package com.example.quizandroid.participant;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.util.DisplayMetrics;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.quizandroid.R;
 
 import java.util.ArrayList;
 import java.util.List;

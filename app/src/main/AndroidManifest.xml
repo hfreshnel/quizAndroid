@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,19 +14,19 @@
         android:theme="@style/Theme.QuizAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".QuizActivity"
+            android:name=".participant.QuizActivity"
             android:exported="false" />
         <activity
             android:name=".GetStartedActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".participant.UserMainActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActiviy"
+            android:name=".auth.SignUpActiviy"
             android:exported="false" />
         <activity
-            android:name=".UserMainActivity"
+            android:name=".auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

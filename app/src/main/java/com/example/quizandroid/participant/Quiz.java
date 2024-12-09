@@ -1,4 +1,4 @@
-package com.example.quizandroid;
+package com.example.quizandroid.participant;
 public class Quiz {
     private String title;
     private String description;
