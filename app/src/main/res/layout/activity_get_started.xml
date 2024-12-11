@@ -24,7 +24,7 @@
         android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to QuizTime,"
+        android:text="Bienvenue sur QuizTime,"
         android:textSize="18sp"
         android:textColor="#333333"
         android:layout_marginBottom="8dp"
@@ -35,7 +35,7 @@
         android:id="@+id/description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="a game that will make you feel better."
+        android:text="un jeu qui vous fera vous sentir mieux."
         android:textSize="16sp"
         android:textColor="#666666"
         android:layout_marginBottom="32dp"
@@ -46,7 +46,7 @@
         android:id="@+id/get_started_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Get started"
+        android:text="Commencer"
         android:textAllCaps="false"
         android:backgroundTint="#00A896"
         android:textColor="#FFFFFF"
@@ -54,12 +54,15 @@
         android:fontFamily="sans-serif-medium"
         android:padding="12dp" />
 
+    <!-- Bouton pour tester l'utilisateur -->
+
+
     <!-- Lien pour se connecter -->
     <TextView
         android:id="@+id/login_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account? Log in"
+        android:text="Vous avez déjà un compte ? Connectez-vous"
         android:textSize="14sp"
         android:textColor="#00A896"
         android:fontFamily="sans-serif"

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +20,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private Button loginButton;
+    private TextView linkToRegister;
 
     // Static JSON data for testing
     private static final String MOCK_USER_EMAIL = "testuser@example.com";
     private static final String MOCK_USER_PASSWORD = "password123";
-
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,15 @@ public class LoginActivity extends AppCompatActivity {
         inputEmail = findViewById(R.id.input_email);
         inputPassword = findViewById(R.id.input_password);
         loginButton = findViewById(R.id.login_button);
+        linkToRegister = findViewById(R.id.link_to_register);
 
         loginButton.setOnClickListener(v -> attemptLogin());
+
+        // Set OnClickListener for "Créer maintenant" link
+        linkToRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void attemptLogin() {
@@ -57,10 +64,10 @@ public class LoginActivity extends AppCompatActivity {
             if ("success".equals(status)) {
                 runOnUiThread(() -> {
                     Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
-                    // Redirect to UserMainActivity
+                    // Redirect to ParticipantListQuizActivity
                     Intent intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
                     startActivity(intent);
-                    finish();  // Optional: Finish current activity to prevent going back to login
+                    finish(); // Optional: Prevent going back to login
                 });
             } else {
                 runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Email ou mot de passe incorrect", Toast.LENGTH_SHORT).show());
@@ -89,3 +96,4 @@ public class LoginActivity extends AppCompatActivity {
         return jsonResponse;
     }
 }
+
