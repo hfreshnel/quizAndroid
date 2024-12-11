@@ -12,14 +12,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizandroid.R;
 import com.example.quizandroid.admin.AdminQuizQuestionActivity;
+import com.example.quizandroid.model.Personne;
 import com.example.quizandroid.participant.ParticipantListQuizActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.quizandroid.API.ConnectionAPI;
+import com.example.quizandroid.API.PersonneAPI;
+
+import java.io.IOException;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
+    private PersonneAPI personneAPI= new PersonneAPI();
+
+    private ConnectionAPI connectionAPI= new ConnectionAPI();
+
     private Button loginButton;
     private TextView linkToRegister;
 
@@ -37,7 +47,13 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         linkToRegister = findViewById(R.id.link_to_register);
 
-        loginButton.setOnClickListener(v -> attemptLogin());
+        loginButton.setOnClickListener(v -> {
+            try {
+                attemptLogin();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // Set OnClickListener for "Créer maintenant" link
         linkToRegister.setOnClickListener(v -> {
@@ -46,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void attemptLogin() {
+    private void attemptLogin() throws IOException {
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
 
@@ -57,13 +73,14 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Simulate a login attempt with static JSON data
+        Personne user = connectionAPI.loginUser(email,password);
         JSONObject jsonResponse = simulateLoginRequest(email, password);
 
         // Handle the simulated response
         try {
             String status = jsonResponse.getString("status");
             if ("success".equals(status)) {
-                int role = jsonResponse.getInt("role");
+                int role = user.getRole();
 
                 runOnUiThread(() -> {
                     Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
