@@ -24,6 +24,8 @@
         <activity
             android:name=".participant.ParticipantListQuizActivity"
             android:exported="false" />
+        <activity android:name=".admin.AdminQuizQuestionActivity" />
+
         <activity
             android:name=".GetStartedActivity"
             android:exported="true">

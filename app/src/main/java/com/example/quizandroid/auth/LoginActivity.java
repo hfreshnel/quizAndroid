@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizandroid.R;
+import com.example.quizandroid.admin.AdminQuizQuestionActivity;
 import com.example.quizandroid.participant.ParticipantListQuizActivity;
 
 import org.json.JSONException;
@@ -23,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView linkToRegister;
 
     // Static JSON data for testing
-    private static final String MOCK_USER_EMAIL = "testuser@example.com";
+    private static final String MOCK_USER_EMAIL = "admin@example.com";
     private static final String MOCK_USER_PASSWORD = "password123";
 
     @Override
@@ -62,12 +63,23 @@ public class LoginActivity extends AppCompatActivity {
         try {
             String status = jsonResponse.getString("status");
             if ("success".equals(status)) {
+                int role = jsonResponse.getInt("role");
+
                 runOnUiThread(() -> {
                     Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
-                    // Redirect to ParticipantListQuizActivity
-                    Intent intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+
+                    // Redirect based on role
+                    Intent intent;
+                    if (role == 1000) {
+                        // Admin role
+                        intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
+                    } else {
+                        // User role
+                        intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                    }
+
                     startActivity(intent);
-                    finish(); // Optional: Prevent going back to login
+                    finish(); // Prevent going back to login
                 });
             } else {
                 runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Email ou mot de passe incorrect", Toast.LENGTH_SHORT).show());
@@ -77,14 +89,19 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     // Simulate a login request with static data
     private JSONObject simulateLoginRequest(String email, String password) {
         JSONObject jsonResponse = new JSONObject();
         try {
-            // Simulate a successful login if email and password match the static values
             if (MOCK_USER_EMAIL.equals(email) && MOCK_USER_PASSWORD.equals(password)) {
                 jsonResponse.put("status", "success");
                 jsonResponse.put("message", "Login successful");
+
+                // Simulate a role: 0 for user, 1000 for admin
+                int role = email.equals("admin@example.com") ? 1000 : 0;
+                jsonResponse.put("role", role);
+
                 jsonResponse.put("user", new JSONObject().put("email", email));
             } else {
                 jsonResponse.put("status", "failure");
@@ -95,5 +112,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         return jsonResponse;
     }
+
 }
 
