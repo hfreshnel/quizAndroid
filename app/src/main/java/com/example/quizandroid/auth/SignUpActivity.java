@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -22,6 +23,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private Button signUpButton;
+    private TextView linkToLogin;
 
     // Static data for testing (e.g., mock email already exists)
     private static final String MOCK_EXISTING_EMAIL = "testuser@example.com";
@@ -34,7 +36,11 @@ public class SignUpActivity extends AppCompatActivity {
         inputEmail = findViewById(R.id.input_email);
         inputPassword = findViewById(R.id.input_password);
         signUpButton = findViewById(R.id.register_button);
-
+        linkToLogin = findViewById(R.id.link_to_login);
+        linkToLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
         signUpButton.setOnClickListener(v -> attemptSignUp());
     }
 

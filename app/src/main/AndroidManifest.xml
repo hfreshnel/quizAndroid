@@ -16,7 +16,7 @@
             android:name=".auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".GetStartedActivity"
+            android:name=".auth.SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".participant.ParticipantQuizActivity"
@@ -24,8 +24,10 @@
         <activity
             android:name=".participant.ParticipantListQuizActivity"
             android:exported="false" />
+        <activity android:name=".admin.AdminQuizQuestionActivity" />
+
         <activity
-            android:name=".auth.SignUpActivity"
+            android:name=".GetStartedActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
