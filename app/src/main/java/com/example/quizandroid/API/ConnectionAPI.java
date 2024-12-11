@@ -1,4 +1,86 @@
 package com.example.quizandroid.API;
 
+import okhttp3.*;
+import java.io.IOException;
+import com.google.gson.Gson;
+import com.example.quizandroid.model.Personne;
+
 public class ConnectionAPI {
+    private static final String BASE_URL = "https://example.com";
+    private final OkHttpClient client;
+    private final Gson gson;
+
+    public ConnectionAPI() {
+        this.client = new OkHttpClient();
+        this.gson = new Gson();
+    }
+
+    public String registerUser(Personne personne) throws IOException {
+        RequestBody body = RequestBody.create(
+                gson.toJson(personne),
+                MediaType.get("application/json; charset=utf-8")
+        );
+
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/public/auth/register")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().string(); // Devuelve el mensaje del servidor
+            } else {
+                throw new IOException("Failed to register user: " + response.message());
+            }
+        }
+    }
+
+    public String loginUser(String mail, String mdp) throws IOException {
+        // Crear un objeto JSON con mail y mdp
+        String loginPayload = gson.toJson(new LoginRequest(mail, mdp));
+
+        RequestBody body = RequestBody.create(
+                loginPayload,
+                MediaType.get("application/json; charset=utf-8")
+        );
+
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/public/auth/login")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().string(); // Devuelve el mensaje del servidor
+            } else {
+                throw new IOException("Failed to login user: " + response.message());
+            }
+        }
+    }
+
+    public String logoutUser() throws IOException {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/public/auth/logout")
+                .post(RequestBody.create(new byte[0], MediaType.get("application/json; charset=utf-8"))) // Body vacío
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().string(); // Devuelve el mensaje del servidor
+            } else {
+                throw new IOException("Failed to logout user: " + response.message());
+            }
+        }
+    }
+
+    // Clase interna para representar la solicitud de login
+    private static class LoginRequest {
+        private final String mail;
+        private final String mdp;
+
+        public LoginRequest(String mail, String mdp) {
+            this.mail = mail;
+            this.mdp = mdp;
+        }
+    }
 }
