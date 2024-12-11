@@ -13,6 +13,9 @@
         android:theme="@style/Theme.QuizAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".admin.AdminPercentActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.LoginActivity"
             android:exported="false" />
         <activity
@@ -25,7 +28,10 @@
             android:name=".participant.ParticipantListQuizActivity"
             android:exported="false" />
         <activity
-            android:name=".auth.SignUpActivity"
+            android:name=".participant.ParticipantQuestionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminQuizQuestionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

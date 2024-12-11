@@ -9,6 +9,7 @@
     tools:context=".participant.ParticipantQuestionsActivity">
 
     <ImageView
+        android:id="@+id/terminerQuiz"
         android:layout_width="26dp"
         android:layout_height="34dp"
         android:layout_marginStart="368dp"
@@ -17,18 +18,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <FrameLayout
+        android:id="@+id/frameLayout2"
         android:layout_width="54dp"
         android:layout_height="54dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="524dp"
-        android:layout_marginEnd="9dp"
+        android:layout_marginTop="528dp"
         android:background="@drawable/circle_background"
         android:backgroundTint="#5BC8C7"
         android:gravity="center"
-        app:layout_constraintEnd_toStartOf="@+id/validerButton"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -45,7 +43,7 @@
         android:layout_width="54dp"
         android:layout_height="54dp"
         android:layout_marginStart="328dp"
-        android:layout_marginTop="524dp"
+        android:layout_marginTop="528dp"
         android:background="@drawable/circle_background"
         android:backgroundTint="#5BC8C7"
         android:gravity="center"
@@ -89,20 +87,35 @@
         android:id="@+id/validerButton"
         android:layout_width="223dp"
         android:layout_height="58dp"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginVertical="16dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="48dp"
         android:backgroundTint="#5BC8C7"
-        android:elevation="4dp"
-        android:gravity="center"
-        android:padding="12dp"
         android:text="Question suivant"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/nQuestion"
         app:layout_constraintEnd_toStartOf="@+id/frameLayout"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="524dp" />
+        app:layout_constraintStart_toEndOf="@+id/frameLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/button4" />
+    <Button
+        android:id="@+id/validerButton2"
+        android:layout_width="223dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="48dp"
+        android:backgroundTint="#5BC8C7"
+        android:text="Question suivant"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/nQuestion"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayout"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/button4" />
+
 
     <Button
         android:id="@+id/button3"
@@ -182,5 +195,62 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.05109489" />
+
+    <TextView
+        android:id="@+id/percentage1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="336dp"
+        android:layout_marginTop="50dp"
+        android:text="10%"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+    <TextView
+        android:id="@+id/percentage2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="336dp"
+        android:layout_marginTop="44dp"
+        android:text="20%"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/percentage1" />
+
+    <TextView
+        android:id="@+id/percentage3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="336dp"
+        android:layout_marginTop="48dp"
+        android:text="20%"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/percentage2" />
+
+    <TextView
+        android:id="@+id/percentage4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="336dp"
+        android:layout_marginTop="48dp"
+        android:text="20%"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/percentage3" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
