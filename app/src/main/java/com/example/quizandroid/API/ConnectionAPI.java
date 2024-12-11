@@ -3,6 +3,7 @@ package com.example.quizandroid.API;
 import okhttp3.*;
 import java.io.IOException;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.example.quizandroid.model.Personne;
 
 public class ConnectionAPI {
@@ -36,11 +37,13 @@ public class ConnectionAPI {
     }
 
     public String loginUser(String mail, String mdp) throws IOException {
-        // Crear un objeto JSON con mail y mdp
-        String loginPayload = gson.toJson(new LoginRequest(mail, mdp));
+        // Crear un JsonObject con mail y mdp
+        JsonObject loginPayload = new JsonObject();
+        loginPayload.addProperty("mail", mail);
+        loginPayload.addProperty("mdp", mdp);
 
         RequestBody body = RequestBody.create(
-                loginPayload,
+                gson.toJson(loginPayload),
                 MediaType.get("application/json; charset=utf-8")
         );
 
@@ -70,17 +73,6 @@ public class ConnectionAPI {
             } else {
                 throw new IOException("Failed to logout user: " + response.message());
             }
-        }
-    }
-
-    // Clase interna para representar la solicitud de login
-    private static class LoginRequest {
-        private final String mail;
-        private final String mdp;
-
-        public LoginRequest(String mail, String mdp) {
-            this.mail = mail;
-            this.mdp = mdp;
         }
     }
 }
