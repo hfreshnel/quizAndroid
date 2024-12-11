@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String MOCK_USER_EMAIL = "testuser@example.com";
     private static final String MOCK_USER_PASSWORD = "password123";
 
+    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
