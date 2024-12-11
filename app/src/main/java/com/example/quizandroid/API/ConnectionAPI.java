@@ -36,7 +36,7 @@ public class ConnectionAPI {
         }
     }
 
-    public String loginUser(String mail, String mdp) throws IOException {
+    public Personne loginUser(String mail, String mdp) throws IOException {
         // Crear un JsonObject con mail y mdp
         JsonObject loginPayload = new JsonObject();
         loginPayload.addProperty("mail", mail);
@@ -54,12 +54,21 @@ public class ConnectionAPI {
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
-                return response.body().string(); // Devuelve el mensaje del servidor
+                // Obtener el código de respuesta (por si es necesario manejarlo)
+                int statusCode = response.code();
+                if (statusCode == 200) { // Verificar si es OK
+                    // Convertir la respuesta JSON en un objeto Personne
+                    String responseBody = response.body().string();
+                    return gson.fromJson(responseBody, Personne.class);
+                } else {
+                    throw new IOException("Login failed with status code: " + statusCode);
+                }
             } else {
                 throw new IOException("Failed to login user: " + response.message());
             }
         }
     }
+
 
     public String logoutUser() throws IOException {
         Request request = new Request.Builder()
