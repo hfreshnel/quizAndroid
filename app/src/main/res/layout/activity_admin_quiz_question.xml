@@ -204,15 +204,27 @@
 
     </LinearLayout>
 
+    <!-- New Button for Displaying Answers -->
+    <Button
+        android:id="@+id/afficherReponses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#5BC8C7"
+        android:text="Afficher les réponses"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
     <!-- Question Number -->
     <TextView
         android:id="@+id/nQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:text="1/12"
-        android:textSize="16sp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal" />
+        android:text="1/12"
+        android:textSize="16sp" />
 
 </LinearLayout>

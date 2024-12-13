@@ -20,12 +20,12 @@
                 android:id="@+id/terminerQuiz"
                 android:layout_width="26dp"
                 android:layout_height="34dp"
-                android:visibility="visible"
-                android:layout_marginStart="368dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/fermer"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
 
             <ImageView

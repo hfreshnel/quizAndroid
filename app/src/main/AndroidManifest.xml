@@ -13,13 +13,10 @@
         android:theme="@style/Theme.QuizAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".admin.AdminClassementActivity"
-            android:exported="false" />
-        <activity
             android:name=".auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".GetStartedActivity"
+            android:name=".auth.SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".participant.ParticipantQuizActivity"
@@ -27,11 +24,11 @@
         <activity
             android:name=".participant.ParticipantListQuizActivity"
             android:exported="false" />
-        <activity
-            android:name=".participant.ParticipantQuestionsActivity"
+        <activity android:name=".admin.AdminQuizQuestionActivity"
             android:exported="false" />
+
         <activity
-            android:name=".admin.AdminQuizQuestionActivity"
+            android:name=".GetStartedActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
