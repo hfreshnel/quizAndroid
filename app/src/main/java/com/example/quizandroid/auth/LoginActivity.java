@@ -2,6 +2,7 @@ package com.example.quizandroid.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,12 +11,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.quizandroid.API.ConnectionAPI;
 import com.example.quizandroid.R;
 import com.example.quizandroid.admin.AdminQuizQuestionActivity;
+import com.example.quizandroid.model.Personne;
 import com.example.quizandroid.participant.ParticipantListQuizActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -23,9 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView linkToRegister;
 
-    // Static JSON data for testing
-    private static final String MOCK_USER_EMAIL = "admin@example.com";
-    private static final String MOCK_USER_PASSWORD = "password123";
+    private ConnectionAPI connectionAPI; // API instance
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +40,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         linkToRegister = findViewById(R.id.link_to_register);
 
+        connectionAPI = new ConnectionAPI();
+
         loginButton.setOnClickListener(v -> attemptLogin());
 
-        // Set OnClickListener for "Créer maintenant" link
+        // Navigate to the SignUpActivity
         linkToRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
             startActivity(intent);
@@ -47,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void attemptLogin() {
-        String email = inputEmail.getText().toString();
-        String password = inputPassword.getText().toString();
+        String email = inputEmail.getText().toString().trim();
+        String password = inputPassword.getText().toString().trim();
 
         // Basic validation
         if (email.isEmpty() || password.isEmpty()) {
@@ -56,62 +61,48 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Simulate a login attempt with static JSON data
-        JSONObject jsonResponse = simulateLoginRequest(email, password);
+        // Perform login in a background thread
+        new Thread(() -> {
+            try {
+                // Call the API to log in the user
+                String response = connectionAPI.loginUser(email, password);
 
-        // Handle the simulated response
-        try {
-            String status = jsonResponse.getString("status");
-            if ("success".equals(status)) {
-                int role = jsonResponse.getInt("role");
+                // Parse the response
+                JSONObject jsonResponse = new JSONObject(String.valueOf(response));
+                String status = jsonResponse.getString("status");
+                String message = jsonResponse.getString("message");
 
+                // Handle the response on the UI thread
                 runOnUiThread(() -> {
-                    Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
+                    if ("success".equals(status)) {
+                        Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
 
-                    // Redirect based on role
-                    Intent intent;
-                    if (role == 1000) {
-                        // Admin role
-                        intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
+                        // Redirect based on the user's role
+                        int role = 0;
+                        try {
+                            role = jsonResponse.getInt("role");
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Intent intent;
+                        if (role == 1000) {
+                            intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
+                        } else {
+                            intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                        }
+                        startActivity(intent);
+                        finish();
                     } else {
-                        // User role
-                        intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
-
-                    startActivity(intent);
-                    finish(); // Prevent going back to login
                 });
-            } else {
-                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Email ou mot de passe incorrect", Toast.LENGTH_SHORT).show());
+            } catch (IOException e) {
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur réseau", Toast.LENGTH_SHORT).show());
+                Log.e("LoginActivity", "Network error", e);
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur inattendue", Toast.LENGTH_SHORT).show());
+                Log.e("LoginActivity", "Unexpected error", e);
             }
-        } catch (JSONException e) {
-            runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur lors du traitement de la réponse", Toast.LENGTH_SHORT).show());
-        }
+        }).start();
     }
-
-
-    // Simulate a login request with static data
-    private JSONObject simulateLoginRequest(String email, String password) {
-        JSONObject jsonResponse = new JSONObject();
-        try {
-            if (MOCK_USER_EMAIL.equals(email) && MOCK_USER_PASSWORD.equals(password)) {
-                jsonResponse.put("status", "success");
-                jsonResponse.put("message", "Login successful");
-
-                // Simulate a role: 0 for user, 1000 for admin
-                int role = email.equals("admin@example.com") ? 1000 : 0;
-                jsonResponse.put("role", role);
-
-                jsonResponse.put("user", new JSONObject().put("email", email));
-            } else {
-                jsonResponse.put("status", "failure");
-                jsonResponse.put("message", "Invalid email or password");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonResponse;
-    }
-
 }
-
