@@ -68,32 +68,35 @@ public class LoginActivity extends AppCompatActivity {
                 String response = connectionAPI.loginUser(email, password);
 
                 // Parse the response
-                JSONObject jsonResponse = new JSONObject(String.valueOf(response));
+                JSONObject jsonResponse = new JSONObject(response);
                 String status = jsonResponse.getString("status");
-                String message = jsonResponse.getString("message");
 
                 // Handle the response on the UI thread
                 runOnUiThread(() -> {
                     if ("success".equals(status)) {
                         Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
 
-                        // Redirect based on the user's role
-                        int role = 0;
+                        // Extract user details
                         try {
-                            role = jsonResponse.getInt("role");
+                            JSONObject userJson = jsonResponse.getJSONObject("user");
+                            int role = userJson.getInt("role");
+
+                            // Redirect based on the user's role
+                            Intent intent;
+                            if (role == 1000) {
+                                intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
+                            } else {
+                                intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                            }
+                            startActivity(intent);
+                            finish();
                         } catch (JSONException e) {
-                            throw new RuntimeException(e);
+                            Log.e("LoginActivity", "Error parsing user details", e);
+                            Toast.makeText(LoginActivity.this, "Erreur lors de la connexion", Toast.LENGTH_SHORT).show();
                         }
-                        Intent intent;
-                        if (role == 1000) {
-                            intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
-                        } else {
-                            intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
-                        }
-                        startActivity(intent);
-                        finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                        // This block is unlikely to be reached with a 200 status code
+                        Toast.makeText(LoginActivity.this, "Échec de la connexion", Toast.LENGTH_SHORT).show();
                     }
                 });
             } catch (IOException e) {

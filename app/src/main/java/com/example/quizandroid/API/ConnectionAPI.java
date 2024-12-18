@@ -15,7 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ConnectionAPI {
-    private static final String BASE_URL = "http://10.3.70.13:8080";
+    private static final String BASE_URL = "http://10.0.2.2:8080";
     private final OkHttpClient client;
     private final Gson gson;
 
@@ -75,71 +75,44 @@ public class ConnectionAPI {
     }
 
     public String loginUser(String email, String password) throws IOException {
-        Log.d("ConnectionAPI", "Attempting login with email: " + email);
-
         Map<String, String> requestBodyMap = new HashMap<>();
-        requestBodyMap.put("email", email);
-        requestBodyMap.put("password", password);
+        requestBodyMap.put("mail", email);
+        requestBodyMap.put("mdp", password);
 
-        // Convert the map to JSON
         String jsonBody = gson.toJson(requestBodyMap);
-
-        // Debug: Log the request body
-        Log.d("ConnectionAPI", "Request Body: " + jsonBody);
-
-        // Create the request body
         RequestBody body = RequestBody.create(
                 jsonBody,
                 MediaType.get("application/json; charset=utf-8")
         );
 
-        // Build and execute the request
         Request request = new Request.Builder()
                 .url(BASE_URL + "/public/auth/login")
-                .addHeader("Content-Type", "application/json") // Ensure the server recognizes JSON
                 .post(body)
                 .build();
 
-        // Debug: Log the request details
-        Log.d("ConnectionAPI", "Sending request to URL: " + BASE_URL + "/public/auth/login");
-
         try (Response response = client.newCall(request).execute()) {
-            // Debug: Log response details
+            String responseBody = response.body() != null ? response.body().string() : "No response body";
             Log.d("ConnectionAPI", "Response Code: " + response.code());
-            Log.d("ConnectionAPI", "Response Message: " + response.message());
+            Log.d("ConnectionAPI", "Response Body: " + responseBody);
 
-            if (response.isSuccessful() && response.body() != null) {
-                String responseBody = response.body().string();
-                // Debug: Log the complete response
-                Log.d("ConnectionAPI", "Response Body: " + responseBody);
-
+            if (response.code() == 401 || response.code() == 403) {
+                // Parse error message if possible
                 try {
-                    JSONObject jsonResponse = new JSONObject(responseBody);
-                    String status = jsonResponse.optString("status", "error");
-
-                    if ("success".equals(status)) {
-                        // Handle successful login
-                        // Example: Return Personne object or data from response
-                        return jsonResponse.toString();
-                    } else {
-                        String message = jsonResponse.optString("message", "Unknown error occurred");
-                        throw new IOException(message);
-                    }
+                    JSONObject errorJson = new JSONObject(responseBody);
+                    String errorMessage = errorJson.optString("message", "Authentication failed");
+                    throw new IOException(errorMessage);
                 } catch (JSONException e) {
-                    Log.e("ConnectionAPI", "JSON Parsing error: ", e);
-                    throw new IOException("Unexpected error parsing JSON response", e);
+                    throw new IOException("Authentication failed");
                 }
-            } else {
-                throw new IOException("Failed to log in. Code: " + response.code() + ", Message: " + response.message());
             }
-        } catch (IOException e) {
-            // Debug: Log the exception
-            Log.e("ConnectionAPI", "Request failed", e);
-            throw new IOException("Network error or invalid response", e);
+
+            if (response.isSuccessful()) {
+                return responseBody;
+            } else {
+                throw new IOException("Failed to log in. Code: " + response.code());
+            }
         }
     }
-
-
 
 
     public String logoutUser() throws IOException {
