@@ -36,10 +36,10 @@ public class GetQuizForAdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_user);
+        setContentView(R.layout.activity_get_quiz_admin);
 
         // Initialize RecyclerView
-        recyclerView = findViewById(R.id.recycler_view_quizzes);
+        recyclerView = findViewById(R.id.recyclerView);
 
         // Calculate the number of columns based on screen width
         int columns = calculateNumberOfColumns();
