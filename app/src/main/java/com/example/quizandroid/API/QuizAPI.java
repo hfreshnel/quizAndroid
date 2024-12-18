@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 
 public class QuizAPI {
-    private static final String BASE_URL = "http://10.0.2.2:8080";
+    private static final String BASE_URL = "http://10.3.70.13:8080";
     private final OkHttpClient client;
     private final Gson gson;
 
@@ -17,7 +17,7 @@ public class QuizAPI {
 
     public JsonObject getAllQuizzes(long id) throws IOException {
         Request request = new Request.Builder()
-                .url(BASE_URL + "/admin/quiz/" + id)
+                .url(BASE_URL + "/public/quiz/" + id)
                 .get()
                 .build();
 
