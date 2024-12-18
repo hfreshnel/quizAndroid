@@ -2,18 +2,24 @@ package com.example.quizandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quizandroid.API.ConnectionAPI;
 import com.example.quizandroid.API.QuizAPI;
-import com.google.gson.JsonArray;
+import com.example.quizandroid.model.Quiz;
+import com.example.quizandroid.participant.ParticipantListQuizActivity;
+import com.example.quizandroid.participant.ParticipantQuizActivity;
+import com.example.quizandroid.participant.QuizAdapter;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,126 +28,78 @@ import java.util.List;
 public class GetQuizForAdminActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private QuizAdapter adapter;
-    private final List<Quiz> quizList = new ArrayList<>();
-    private List<Quiz> currentPageData = new ArrayList<>();
-    private int currentPage = 1;
-    private final int itemsPerPage = 6;
-    private ActivityResultLauncher<Intent> createQuizLauncher;
-    private final QuizAPI quizAPI = new QuizAPI();
+    private com.example.quizandroid.participant.QuizAdapter adapter;
+    private List<Quiz> quizList;
+    private ConnectionAPI connectionAPI;
+    private final Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_quiz_admin);
-/*
-        recyclerView = findViewById(R.id.recyclerView);
-        Button btnPrevious = findViewById(R.id.btn_previous);
-        Button btnNext = findViewById(R.id.btn_next);
-        Button btnCreate = findViewById(R.id.button);
+        setContentView(R.layout.activity_main_user);
 
-        // Configure RecyclerView
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        adapter = new QuizAdapter(currentPageData);
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recycler_view_quizzes);
+
+        // Calculate the number of columns based on screen width
+        int columns = calculateNumberOfColumns();
+        recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
+
+        // Initialize quiz list and adapter
+        quizList = new ArrayList<>();
+        adapter = new QuizAdapter(quizList, quiz -> {
+            Intent intent = new Intent(GetQuizForAdminActivity.this, GetQuizForAdminActivity.class);
+            intent.putExtra("quizTitle", quiz.getLibelle());
+            startActivity(intent);
+        });
         recyclerView.setAdapter(adapter);
 
-        // Fetch quizzes from API
-        fetchQuizzes();
+        // Initialize ConnectionAPI
+        connectionAPI = new ConnectionAPI();
 
-        // Handle Previous button click
-        btnPrevious.setOnClickListener(v -> {
-            if (currentPage > 1) {
-                currentPage--;
-                loadPage(currentPage);
-            } else {
-                Toast.makeText(this, "Vous êtes déjà à la première page", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Handle Next button click
-        btnNext.setOnClickListener(v -> {
-            if (currentPage < getTotalPages()) {
-                currentPage++;
-                loadPage(currentPage);
-            } else {
-                Toast.makeText(this, "Vous êtes déjà à la dernière page", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        createQuizLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        // Retrieve data from CreerQuizActivity
-                        Intent data = result.getData();
-                        String quizName = data.getStringExtra("quiz_name");
-                        int questionCount = data.getIntExtra("question_count", 0);
-
-                        // Add the new quiz to the list
-                        Quiz newQuiz = new Quiz(quizName, R.drawable.ideas);
-                        quizList.add(newQuiz);
-
-                        // Reload the current page
-                        loadPage(currentPage);
-                        Toast.makeText(this, "Quiz ajouté : " + quizName, Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        // Create quiz button
-        btnCreate.setOnClickListener(v -> {
-            Intent intent = new Intent(GetQuizForAdminActivity.this, CreerQuizActivity.class);
-            createQuizLauncher.launch(intent);
-        });
+        // Fetch quiz details
+        fetchQuizDetails();
     }
 
-   /* private void fetchQuizzes() {
+    private int calculateNumberOfColumns() {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int screenWidth = displayMetrics.widthPixels;
+        int cardWidth = getResources().getDimensionPixelSize(R.dimen.quiz_card_width); // Define in dimens.xml
+        return Math.max(1, screenWidth / cardWidth);
+    }
+
+    private void fetchQuizDetails() {
         new Thread(() -> {
             try {
-                // Call the API to fetch quizzes
-                JsonObject response = quizAPI.getAllQuizzes(1); // Replace with the actual admin ID
-                JsonArray quizzes = response.getAsJsonArray("quizzes");
+                // Fetch quizzes using QuizAPI
+                JsonObject response = QuizAPI.getAllQuizzes();
+                Log.d("ParticipantListQuizActivity", "Retrieved JSON: " + response.toString());
 
-                quizList.clear();
-                for (int i = 0; i < quizzes.size(); i++) {
-                    JsonObject quizJson = quizzes.get(i).getAsJsonObject();
-                    Quiz quiz = new Quiz(
-                            quizJson.get("title").getAsString(),
-                            R.drawable.ideas // Replace with an appropriate resource if available
-                    );
-                    quizList.add(quiz);
+                // Extract the quiz list from the "data" key in the JSON response
+                List<Quiz> quizzes = gson.fromJson(response.getAsJsonArray("data"), new TypeToken<List<Quiz>>() {}.getType());
+
+                // Filter quizzes based on "etat" and update the RecyclerView on the main thread
+                List<Quiz> filteredQuizzes = new ArrayList<>();
+                for (Quiz quiz : quizzes) {
+                    if (quiz.getEtat() != 0) { // Exclude quizzes with etat == 0
+                        filteredQuizzes.add(quiz);
+                    }
                 }
 
-                // Update UI on the main thread
-                runOnUiThread(() -> {
-                    loadPage(currentPage);
-                    Toast.makeText(this, "Quizzes loaded successfully", Toast.LENGTH_SHORT).show();
-                });
-
+                runOnUiThread(() -> updateRecyclerView(filteredQuizzes));
             } catch (IOException e) {
-                runOnUiThread(() ->
-                        Toast.makeText(this, "Failed to load quizzes: " + e.getMessage(), Toast.LENGTH_SHORT).show()
-                );
+                // Handle errors on the main thread
+                runOnUiThread(() -> Toast.makeText(this, "Failed to fetch quizzes: " + e.getMessage(), Toast.LENGTH_LONG).show());
+                Log.e("ParticipantListQuizActivity", "Error fetching quizzes", e);
             }
         }).start();
     }
 
-    // Load a specific page
-    private void loadPage(int page) {
-        currentPageData.clear();
-        int startIndex = (page - 1) * itemsPerPage;
-        int endIndex = Math.min(startIndex + itemsPerPage, quizList.size());
-        for (int i = startIndex; i < endIndex; i++) {
-            currentPageData.add(quizList.get(i));
-        }
+
+
+    private void updateRecyclerView(List<Quiz> quizzes) {
+        quizList.clear();
+        quizList.addAll(quizzes);
         adapter.notifyDataSetChanged();
-    }
-
-    // Calculate total pages
-    private int getTotalPages() {
-        return (int) Math.ceil((double) quizList.size() / itemsPerPage);
-    }
-
-    */
     }
 }

@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.quizandroid.model.Quiz;
+
 import java.util.List;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
@@ -27,8 +30,8 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     @Override
     public void onBindViewHolder(@NonNull QuizViewHolder holder, int position) {
         Quiz quiz = quizList.get(position);
-        holder.quizTitle.setText(quiz.getTitle());
-        holder.quizIcon.setImageResource(quiz.getIconResId());
+        holder.quizTitle.setText(quiz.getLibelle());
+        //holder.quizIcon.setImageResource(quiz.getIconResId());
     }
 
     @Override

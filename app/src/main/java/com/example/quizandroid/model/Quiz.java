@@ -21,6 +21,11 @@ public class Quiz {
         this.dateDebutQuestion = dateDebutQuestion;
     }
 
+    public Quiz(String libelle,int noQuestionCourante) {
+        this.libelle = libelle;
+        this.noQuestionCourante = noQuestionCourante;
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;
