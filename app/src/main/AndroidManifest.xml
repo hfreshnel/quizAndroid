@@ -39,6 +39,9 @@
             android:name=".admin.AdminClassementActivity"
             android:exported="false" />
         <activity
+            android:name=".admin.AdminQuizQuestionActivity"
+            android:exported="false" />
+        <activity
             android:name=".participant.ParticipantQuizActivity"
             android:exported="false" />
         <activity
