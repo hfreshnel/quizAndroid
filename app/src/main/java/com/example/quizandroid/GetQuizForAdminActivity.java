@@ -1,9 +1,10 @@
-package com.example.quizandroid.participant;
+package com.example.quizandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizandroid.API.ConnectionAPI;
 import com.example.quizandroid.API.QuizAPI;
-import com.example.quizandroid.R;
 import com.example.quizandroid.model.Quiz;
+import com.example.quizandroid.participant.ParticipantListQuizActivity;
+import com.example.quizandroid.participant.ParticipantQuizActivity;
+import com.example.quizandroid.participant.QuizAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -22,10 +25,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParticipantListQuizActivity extends AppCompatActivity {
+public class GetQuizForAdminActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private QuizAdapter adapter;
+    private com.example.quizandroid.participant.QuizAdapter adapter;
     private List<Quiz> quizList;
     private ConnectionAPI connectionAPI;
     private final Gson gson = new Gson();
@@ -33,10 +36,10 @@ public class ParticipantListQuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_user);
+        setContentView(R.layout.activity_get_quiz_admin);
 
         // Initialize RecyclerView
-        recyclerView = findViewById(R.id.recycler_view_quizzes);
+        recyclerView = findViewById(R.id.recyclerView);
 
         // Calculate the number of columns based on screen width
         int columns = calculateNumberOfColumns();
@@ -45,7 +48,7 @@ public class ParticipantListQuizActivity extends AppCompatActivity {
         // Initialize quiz list and adapter
         quizList = new ArrayList<>();
         adapter = new QuizAdapter(quizList, quiz -> {
-            Intent intent = new Intent(ParticipantListQuizActivity.this, ParticipantQuizActivity.class);
+            Intent intent = new Intent(GetQuizForAdminActivity.this, GetQuizForAdminActivity.class);
             intent.putExtra("quizTitle", quiz.getLibelle());
             startActivity(intent);
         });

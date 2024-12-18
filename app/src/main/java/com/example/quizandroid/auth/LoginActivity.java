@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizandroid.API.ConnectionAPI;
+import com.example.quizandroid.GetQuizForAdminActivity;
 import com.example.quizandroid.R;
 import com.example.quizandroid.admin.AdminQuizQuestionActivity;
 import com.example.quizandroid.model.Personne;
@@ -55,57 +56,46 @@ public class LoginActivity extends AppCompatActivity {
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
 
-        // Basic validation
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(LoginActivity.this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Perform login in a background thread
         new Thread(() -> {
             try {
-                // Call the API to log in the user
                 String response = connectionAPI.loginUser(email, password);
 
                 // Parse the response
                 JSONObject jsonResponse = new JSONObject(response);
-                String status = jsonResponse.getString("status");
+                int code = jsonResponse.getInt("code");
+                String error = jsonResponse.isNull("error") ? "Erreur inconnue" : jsonResponse.optString("error");
 
-                // Handle the response on the UI thread
-                runOnUiThread(() -> {
-                    if ("success".equals(status)) {
-                        Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
+                if (code == 200) {
+                    JSONObject personData = jsonResponse.getJSONObject("data");
+                    String mail = personData.optString("mail", "Email non fourni");
+                    int role = personData.optInt("role", -1);
 
-                        // Extract user details
-                        try {
-                            JSONObject userJson = jsonResponse.getJSONObject("user");
-                            int role = userJson.getInt("role");
+                    runOnUiThread(() -> {
+                        Toast.makeText(LoginActivity.this, "Connexion réussie : " + mail, Toast.LENGTH_SHORT).show();
 
-                            // Redirect based on the user's role
-                            Intent intent;
-                            if (role == 1000) {
-                                intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
-                            } else {
-                                intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
-                            }
-                            startActivity(intent);
-                            finish();
-                        } catch (JSONException e) {
-                            Log.e("LoginActivity", "Error parsing user details", e);
-                            Toast.makeText(LoginActivity.this, "Erreur lors de la connexion", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        // This block is unlikely to be reached with a 200 status code
-                        Toast.makeText(LoginActivity.this, "Échec de la connexion", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        Intent intent = (role == 1000)
+                                ? new Intent(LoginActivity.this, GetQuizForAdminActivity.class)
+                                : new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                        startActivity(intent);
+                        finish();
+                    });
+                } else {
+                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show());
+                }
             } catch (IOException e) {
-                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur réseau", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur réseau: " + e.getMessage(), Toast.LENGTH_LONG).show());
                 Log.e("LoginActivity", "Network error", e);
-            } catch (Exception e) {
-                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur inattendue", Toast.LENGTH_SHORT).show());
-                Log.e("LoginActivity", "Unexpected error", e);
+            } catch (JSONException e) {
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur JSON: " + e.getMessage(), Toast.LENGTH_LONG).show());
+                Log.e("LoginActivity", "JSON parsing error", e);
             }
         }).start();
     }
+
 }
+

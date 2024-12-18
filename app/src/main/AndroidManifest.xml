@@ -25,7 +25,7 @@
             android:name=".CreerQuizActivity"
             android:exported="false" />
         <activity
-            android:name=".QuestionActivity"
+            android:name=".GetQuizForAdminActivity"
             android:exported="true" />
 
         <!-- Activities from main -->

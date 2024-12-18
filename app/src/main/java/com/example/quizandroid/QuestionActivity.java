@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.activity.result.contract.ActivityResultContracts;
 
+import com.example.quizandroid.model.Quiz;
+
 import java.util.ArrayList;
 import java.util.List;
 
