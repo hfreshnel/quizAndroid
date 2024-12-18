@@ -9,24 +9,13 @@
     <!-- Edit Icon at the Top Right -->
     <ImageView
         android:id="@+id/edit_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:src="@drawable/edit"
         android:contentDescription="Edit Icon"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="8dp" />
-
-    <!-- Start Icon at the Bottom Right -->
-    <ImageView
-        android:id="@+id/start_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/start"
-        android:contentDescription="Start Icon"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="8dp" />
+        android:layout_margin="0dp" />
 
     <!-- Main Content Container -->
     <LinearLayout
