@@ -69,7 +69,7 @@ public class QuizAPI {
         }
     }
 
-    public JsonObject createQuiz(JsonObject quiz) throws IOException {
+    public static JsonObject createQuiz(JsonObject quiz) throws IOException {
         RequestBody body = RequestBody.create(
                 gson.toJson(quiz),
                 MediaType.get("application/json; charset=utf-8")

@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizandroid.API.ConnectionAPI;
 import com.example.quizandroid.API.QuizAPI;
 import com.example.quizandroid.model.Quiz;
-import com.example.quizandroid.participant.ParticipantListQuizActivity;
-import com.example.quizandroid.participant.ParticipantQuizActivity;
 import com.example.quizandroid.participant.QuizAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -28,7 +26,7 @@ import java.util.List;
 public class GetQuizForAdminActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private com.example.quizandroid.participant.QuizAdapter adapter;
+    private QuizAdapter adapter;
     private List<Quiz> quizList;
     private ConnectionAPI connectionAPI;
     private final Gson gson = new Gson();
@@ -59,6 +57,13 @@ public class GetQuizForAdminActivity extends AppCompatActivity {
 
         // Fetch quiz details
         fetchQuizDetails();
+
+        // Set up "Créer un nouveau quiz" button
+        Button createQuizButton = findViewById(R.id.button);
+        createQuizButton.setOnClickListener(v -> {
+            Intent intent = new Intent(GetQuizForAdminActivity.this, CreerQuizActivity.class);
+            startActivity(intent);
+        });
     }
 
     private int calculateNumberOfColumns() {
@@ -94,8 +99,6 @@ public class GetQuizForAdminActivity extends AppCompatActivity {
             }
         }).start();
     }
-
-
 
     private void updateRecyclerView(List<Quiz> quizzes) {
         quizList.clear();

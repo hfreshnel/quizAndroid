@@ -1,91 +1,84 @@
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#EAF6F6">
+    android:background="#F0F8FF">
 
-    <!-- Bouton Se déconnecter -->
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Se déconnecter"
-        android:backgroundTint="#FF0000"
-        android:textColor="#FFFFFF"
-        android:layout_gravity="start"
-        android:layout_marginBottom="37dp" />
+    <!-- Main Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:layout_marginBottom="56dp"> <!-- Reserve space for BottomNavigationView -->
 
-    <!-- Bouton Revenir à la liste -->
-    <Button
-        android:id="@+id/btn_return_to_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Revenir à la liste"
-        android:backgroundTint="#6200EE"
-        android:textColor="#FFFFFF"
-        android:layout_gravity="start"
-        android:layout_marginBottom="24dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <!-- Titre de la page -->
-    <TextView
-        android:id="@+id/tv_create_quiz_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:text="Créer un nouveau quiz"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="50dp"
-        android:textColor="#333333" />
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tv_create_quiz_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="Créer un Nouveau Quiz"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#333333" />
 
-    <!-- Champ Nom du Quiz -->
-    <EditText
-        android:id="@+id/quiz_name"
+            <!-- Quiz Name Field -->
+            <EditText
+                android:id="@+id/quiz_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nom du Quiz"
+                android:padding="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rounded_edittext"
+                android:inputType="text" />
+
+            <!-- Container for Dynamic Questions -->
+            <LinearLayout
+                android:id="@+id/question_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_edittext"
+                />
+
+            <!-- Buttons -->
+            <Button
+                android:id="@+id/add_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ajouter Question"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#00A896"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/terminer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Terminer"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#007C91"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- BottomNavigationView -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nom du quiz"
-        android:layout_marginTop="24dp"
-        android:padding="10dp"
-        android:background="@drawable/rounded_background"
-        android:layout_marginBottom="16dp"
-        android:inputType="text" />
-
-    <!-- Champ Nombre de questions -->
-    <EditText
-        android:id="@+id/question_count"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre de questions"
-        android:layout_marginTop="16dp"
-        android:padding="10dp"
-        android:background="@drawable/rounded_background"
-        android:layout_marginBottom="55dp"
-        android:inputType="number" />
-
-    <!-- Bouton Sauvegarder -->
-    <Button
-        android:id="@+id/save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#6200EE"
-        android:text="Sauvegarder"
-        android:layout_marginBottom="20dp"
-        android:textColor="#FFFFFF" />
-
-    <!-- Bouton Question -->
-    <Button
-        android:id="@+id/question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#6200EE"
-        android:text="Question"
-        android:textColor="#FFFFFF" />
-
-</LinearLayout>
+        android:layout_gravity="bottom"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        app:menu="@menu/bottom_nav_menu" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
