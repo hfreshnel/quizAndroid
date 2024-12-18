@@ -75,15 +75,7 @@ public class ParticipantListQuizActivity extends AppCompatActivity {
                 // Extract the quiz list from the "data" key in the JSON response
                 List<Quiz> quizzes = gson.fromJson(response.getAsJsonArray("data"), new TypeToken<List<Quiz>>() {}.getType());
 
-                // Filter quizzes based on "etat" and update the RecyclerView on the main thread
-                List<Quiz> filteredQuizzes = new ArrayList<>();
-                for (Quiz quiz : quizzes) {
-                    if (quiz.getEtat() != 0) { // Exclude quizzes with etat == 0
-                        filteredQuizzes.add(quiz);
-                    }
-                }
-
-                runOnUiThread(() -> updateRecyclerView(filteredQuizzes));
+                runOnUiThread(() -> updateRecyclerView(quizzes));
             } catch (IOException e) {
                 // Handle errors on the main thread
                 runOnUiThread(() -> Toast.makeText(this, "Failed to fetch quizzes: " + e.getMessage(), Toast.LENGTH_LONG).show());
