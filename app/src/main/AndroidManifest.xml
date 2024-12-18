@@ -24,12 +24,16 @@
         <activity
             android:name=".participant.ParticipantListQuizActivity"
             android:exported="false" />
-        <activity android:name=".admin.AdminQuizQuestionActivity"
-            android:exported="false" />
+<!--        <activity android:name=".admin.AdminQuizQuestionActivity"-->
+<!--            android:exported="false" />-->
 
-        <activity
-            android:name=".GetStartedActivity"
-            android:exported="true">
+        <activity android:name=".admin.AdminClassementActivity"
+            android:exported="false" />
+        <activity android:name=".admin.AdminQuizQuestionActivity"
+            android:exported="true" >
+<!--        <activity-->
+<!--            android:name=".GetStartedActivity"-->
+<!--            android:exported="true">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
