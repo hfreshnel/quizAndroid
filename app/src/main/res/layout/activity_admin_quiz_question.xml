@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tempsRestant"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAF6F6"
+    android:orientation="vertical"
+    tools:context=".participant.ParticipantQuestionsActivity">
+
+    <!-- Top Close Icon -->
+    <ImageView
+        android:id="@+id/terminerQuiz"
+        android:layout_width="26dp"
+        android:layout_height="34dp"
+        android:layout_gravity="end"
+        android:layout_margin="16dp"
+        android:src="@drawable/fermer" />
+
+    <!-- Question Title -->
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Question"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal" />
+
+    <!-- Remaining Time -->
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Temps restant : 9s"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal" />
+
+    <!-- Buttons for Answers with Percentages at Top Right Corner -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/percentage1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:text="10%"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/percentage1"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="#F18E8E"
+                android:text="Reponse 1"
+                android:textColor="#000000" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/percentage2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:text="20%"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/percentage2"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="#F18E8E"
+                android:text="Reponse 2"
+                android:textColor="#000000" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/percentage3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:text="30%"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/percentage3"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="#F18E8E"
+                android:text="Reponse 3"
+                android:textColor="#000000" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/percentage4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:text="40%"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/percentage4"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="#A8D694"
+                android:text="Reponse 4"
+                android:textColor="#000000" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- Validation Buttons and Icons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/frameLayout2"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="#5BC8C7">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/statistiques" />
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/validerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="#5BC8C7"
+            android:text="Question suivant"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="#5BC8C7">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/percent" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- New Button for Displaying Answers -->
+    <Button
+        android:id="@+id/afficherReponses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#5BC8C7"
+        android:text="Afficher les réponses"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+    <!-- Question Number -->
+    <TextView
+        android:id="@+id/nQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="1/12"
+        android:textSize="16sp" />
+
+</LinearLayout>
