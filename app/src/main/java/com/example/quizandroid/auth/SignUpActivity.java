@@ -77,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> {
                     Toast.makeText(SignUpActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignUpActivity.this, ParticipantListQuizActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                 });
