@@ -1,13 +1,21 @@
 package com.example.quizandroid.API;
 
+import android.util.Log;
+
 import okhttp3.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.example.quizandroid.model.Personne;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ConnectionAPI {
-    private static final String BASE_URL = "https://example.com";
+    private static final String BASE_URL = "http://10.0.2.2:8080";
     private final OkHttpClient client;
     private final Gson gson;
 
@@ -17,33 +25,63 @@ public class ConnectionAPI {
     }
 
     public String registerUser(Personne personne) throws IOException {
+        // Create a map with the fields
+        Log.d("personne",personne.toString());
+        Map<String, String> requestBodyMap = new HashMap<>();
+        requestBodyMap.put("mail", personne.getMail());
+        requestBodyMap.put("mdp", personne.getMdp());
+        requestBodyMap.put("prenom", personne.getPrenom());
+        requestBodyMap.put("nom", personne.getNom());
+
+        // Convert the map to JSON
+        String jsonBody = gson.toJson(requestBodyMap);
+
+        // Debug: Log the request body
+        Log.d("ConnectionAPI", "Request Body: " + jsonBody);
+
+        // Create the request body
         RequestBody body = RequestBody.create(
-                gson.toJson(personne),
+                jsonBody,
                 MediaType.get("application/json; charset=utf-8")
         );
 
+        // Build and execute the request
         Request request = new Request.Builder()
                 .url(BASE_URL + "/public/auth/register")
                 .post(body)
                 .build();
 
+        // Debug: Log the request details
+        Log.d("ConnectionAPI", "Sending request to URL: " + BASE_URL + "/public/auth/register");
+
         try (Response response = client.newCall(request).execute()) {
+            // Debug: Log response details
+            Log.d("ConnectionAPI", "Response Code: " + response.code());
+            Log.d("ConnectionAPI", "Response Message: " + response.message());
+
             if (response.isSuccessful() && response.body() != null) {
-                return response.body().string(); // Devuelve el mensaje del servidor
+                String responseBody = response.body().string();
+                // Debug: Log response body
+                Log.d("ConnectionAPI", "Response Body: " + responseBody);
+                return responseBody; // Return server message
             } else {
-                throw new IOException("Failed to register user: " + response.message());
+                throw new IOException("Failed to register user. Code: " + response.code() + ", Message: " + response.message());
             }
+        } catch (IOException e) {
+            // Debug: Log the exception
+            Log.e("ConnectionAPI", "Request failed", e);
+            throw new IOException("Network error or invalid response", e);
         }
     }
 
-    public Personne loginUser(String mail, String mdp) throws IOException {
-        // Crear un JsonObject con mail y mdp
-        JsonObject loginPayload = new JsonObject();
-        loginPayload.addProperty("mail", mail);
-        loginPayload.addProperty("mdp", mdp);
+    public String loginUser(String email, String password) throws IOException {
+        Map<String, String> requestBodyMap = new HashMap<>();
+        requestBodyMap.put("mail", email);
+        requestBodyMap.put("mdp", password);
 
+        String jsonBody = gson.toJson(requestBodyMap);
         RequestBody body = RequestBody.create(
-                gson.toJson(loginPayload),
+                jsonBody,
                 MediaType.get("application/json; charset=utf-8")
         );
 
@@ -53,18 +91,25 @@ public class ConnectionAPI {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
-                // Obtener el código de respuesta (por si es necesario manejarlo)
-                int statusCode = response.code();
-                if (statusCode == 200) { // Verificar si es OK
-                    // Convertir la respuesta JSON en un objeto Personne
-                    String responseBody = response.body().string();
-                    return gson.fromJson(responseBody, Personne.class);
-                } else {
-                    throw new IOException("Login failed with status code: " + statusCode);
+            String responseBody = response.body() != null ? response.body().string() : "No response body";
+            Log.d("ConnectionAPI", "Response Code: " + response.code());
+            Log.d("ConnectionAPI", "Response Body: " + responseBody);
+
+            if (response.code() == 401 || response.code() == 403) {
+                // Parse error message if possible
+                try {
+                    JSONObject errorJson = new JSONObject(responseBody);
+                    String errorMessage = errorJson.optString("message", "Authentication failed");
+                    throw new IOException(errorMessage);
+                } catch (JSONException e) {
+                    throw new IOException("Authentication failed");
                 }
+            }
+
+            if (response.isSuccessful()) {
+                return responseBody;
             } else {
-                throw new IOException("Failed to login user: " + response.message());
+                throw new IOException("Failed to log in. Code: " + response.code());
             }
         }
     }

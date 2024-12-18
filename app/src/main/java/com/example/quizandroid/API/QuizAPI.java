@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 
 public class QuizAPI {
-    private static final String BASE_URL = "https://example.com";
+    private static final String BASE_URL = "http://10.0.2.2:8080";
     private final OkHttpClient client;
     private final Gson gson;
 
