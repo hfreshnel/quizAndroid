@@ -1,19 +1,25 @@
 package com.example.quizandroid;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
 
     private final List<Quiz> quizList;
+    private final Context context; // Contexte pour démarrer l'activité
 
-    public QuizAdapter(List<Quiz> quizList) {
+    public QuizAdapter(Context context, List<Quiz> quizList) {
+        this.context = context;
         this.quizList = quizList;
     }
 
@@ -29,6 +35,14 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         Quiz quiz = quizList.get(position);
         holder.quizTitle.setText(quiz.getTitle());
         holder.quizIcon.setImageResource(quiz.getIconResId());
+
+        // Ajouter un événement de clic pour chaque élément
+        holder.itemView.setOnClickListener(v -> {
+            // Créer un Intent pour démarrer l'activité QuizDetailActivity
+            Intent intent = new Intent(context, QuestionQuizActivity.class);
+            intent.putExtra("quiz_name", quiz.getTitle());
+            context.startActivity(intent); // Lancer l'activité
+        });
     }
 
     @Override

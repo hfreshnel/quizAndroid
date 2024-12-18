@@ -54,16 +54,8 @@
         android:inputType="text" />
 
     <!-- Champ Nombre de questions -->
-    <EditText
-        android:id="@+id/question_count"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre de questions"
-        android:layout_marginTop="16dp"
-        android:padding="10dp"
-        android:background="@drawable/rounded_background"
-        android:layout_marginBottom="55dp"
-        android:inputType="number" />
+
+
 
     <!-- Bouton Sauvegarder -->
     <Button

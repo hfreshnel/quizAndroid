@@ -42,7 +42,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         // Configurer RecyclerView
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        adapter = new QuizAdapter(currentPageData);
+        adapter = new QuizAdapter(this, currentPageData);
         recyclerView.setAdapter(adapter);
 
         // Charger la première page

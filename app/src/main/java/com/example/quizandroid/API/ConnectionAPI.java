@@ -15,7 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ConnectionAPI {
-    private static final String BASE_URL = "http://10.0.2.2:8080";
+    private static final String BASE_URL = "http://10.3.70.13:8080";
     private final OkHttpClient client;
     private final Gson gson;
 

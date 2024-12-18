@@ -1,0 +1,202 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#EAF6F6">
+
+    <!-- Conteneur horizontal pour Se déconnecter et TextView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <!-- Bouton Se déconnecter -->
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Se déconnecter"
+            android:backgroundTint="#FF0000"
+            android:textColor="#FFFFFF" />
+
+        <!-- Ajout d'un espace pour séparer les éléments -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- TextView en haut à droite -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Utilisateur"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <!-- Bouton Revenir à la liste des quiz -->
+    <Button
+        android:id="@+id/btn_return_to_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Revenir à la liste des quiz"
+        android:backgroundTint="#6200EE"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Section Question avec icône Edit -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:id="@+id/tv_quiz_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Question"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#333333" />
+
+        <ImageView
+            android:id="@+id/edit_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/edit"
+            android:contentDescription="Modifier la question" />
+    </LinearLayout>
+
+    <!-- Section Propositions -->
+    <TextView
+        android:id="@+id/tv_propositions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Propositions :"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:textColor="#333333" />
+
+    <!-- Grille des propositions -->
+    <GridLayout
+        android:id="@+id/grid_propositions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:layout_marginBottom="16dp">
+
+        <!-- Proposition 1 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_proposition_background"
+            android:padding="16dp"
+            android:layout_margin="8dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Proposition 1"
+                android:padding="8dp"
+                android:background="@drawable/rounded_background"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <!-- Proposition 2 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_proposition_background"
+            android:padding="16dp"
+            android:layout_margin="8dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Proposition 2"
+                android:padding="8dp"
+                android:background="@drawable/rounded_background"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <!-- Proposition 3 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_proposition_background"
+            android:padding="16dp"
+            android:layout_margin="8dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Proposition 3"
+                android:padding="8dp"
+                android:background="@drawable/rounded_background"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <!-- Proposition 4 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_proposition_background"
+            android:padding="16dp"
+            android:layout_margin="8dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Proposition 4"
+                android:padding="8dp"
+                android:background="@drawable/rounded_background"
+                android:inputType="text" />
+        </LinearLayout>
+    </GridLayout>
+
+    <!-- Section Réponse -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Réponse :"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#333333" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Entrez la réponse"
+        android:padding="8dp"
+        android:background="@drawable/rounded_background"
+        android:inputType="text" />
+
+    <!-- Bouton Sauvegarder -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Sauvegarder"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#6200EE"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>

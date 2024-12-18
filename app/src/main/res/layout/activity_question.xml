@@ -64,14 +64,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Précédent"
-            android:layout_marginBottom="17dp"
+            android:layout_marginBottom="2dp"
             android:layout_marginEnd="66dp" />
 
         <Button
             android:id="@+id/btn_next"
             android:layout_width="106dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="17dp"
+            android:layout_marginBottom="2dp"
             android:text="Suivant" />
     </LinearLayout>
 

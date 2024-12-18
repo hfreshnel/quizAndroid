@@ -28,7 +28,6 @@
         android:layout_gravity="start"
         android:layout_marginBottom="24dp" />
 
-    <!-- Titre Nom du quiz avec icône -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +49,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="8dp"
-
+            android:src="@drawable/edit"
             android:contentDescription="Modifier le nom du quiz" />
     </LinearLayout>
 
@@ -69,7 +68,8 @@
             android:orientation="horizontal"
             android:background="@drawable/rounded_question_background"
             android:padding="12dp"
-            android:layout_marginBottom="12dp">
+
+            android:layout_marginBottom="40dp">
 
             <!-- Texte de la question -->
             <TextView
@@ -83,21 +83,21 @@
                 android:textColor="#FFFFFF" />
 
             <!-- Icône Modifier -->
-            <ImageButton
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/edit"
-                android:background="@null"
-                android:contentDescription="Modifier question" />
+            <ImageView
 
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/edit"
+                android:contentDescription="Modifier le nom du quiz" />
             <!-- Icône Supprimer -->
-            <ImageButton
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+            <ImageView
+
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/delete"
-                android:background="@null"
-                android:contentDescription="Supprimer question" />
+                android:contentDescription="Modifier le nom du quiz" />
         </LinearLayout>
 
         <!-- Question 2 -->
@@ -121,21 +121,22 @@
                 android:textColor="#FFFFFF" />
 
             <!-- Icône Modifier -->
-            <ImageButton
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="8dp"
+            <ImageView
+
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/edit"
-                android:background="@null"
-                android:contentDescription="Modifier question" />
+                android:contentDescription="Modifier le nom du quiz" />
 
             <!-- Icône Supprimer -->
-            <ImageButton
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+            <ImageView
+
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/delete"
-                android:background="@null"
-                android:contentDescription="Supprimer question" />
+                android:contentDescription="Modifier le nom du quiz" />
         </LinearLayout>
     </LinearLayout>
 
