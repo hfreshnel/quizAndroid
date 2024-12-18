@@ -1,0 +1,153 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#EAF6F6">
+
+    <!-- Bouton Se déconnecter -->
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Se déconnecter"
+        android:backgroundTint="#FF0000"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="start"
+        android:layout_marginBottom="30dp" />
+
+    <!-- Bouton Revenir à la liste -->
+    <Button
+        android:id="@+id/btn_return_to_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Revenir à la liste"
+        android:backgroundTint="#6200EE"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="start"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Titre Nom du quiz avec icône -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:id="@+id/tv_quiz_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nom du quiz 2"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#333333" />
+
+        <ImageView
+            android:id="@+id/edit_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+
+            android:contentDescription="Modifier le nom du quiz" />
+    </LinearLayout>
+
+    <!-- Liste des questions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#e3e3e3"
+        android:padding="8dp">
+
+        <!-- Question 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_question_background"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <!-- Texte de la question -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Question 1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:textColor="#FFFFFF" />
+
+            <!-- Icône Modifier -->
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/edit"
+                android:background="@null"
+                android:contentDescription="Modifier question" />
+
+            <!-- Icône Supprimer -->
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/delete"
+                android:background="@null"
+                android:contentDescription="Supprimer question" />
+        </LinearLayout>
+
+        <!-- Question 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_question_background"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <!-- Texte de la question -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Question 2"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:textColor="#FFFFFF" />
+
+            <!-- Icône Modifier -->
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/edit"
+                android:background="@null"
+                android:contentDescription="Modifier question" />
+
+            <!-- Icône Supprimer -->
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/delete"
+                android:background="@null"
+                android:contentDescription="Supprimer question" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bouton Ajouter une question -->
+    <Button
+        android:id="@+id/btn_add_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Ajouter une question"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#6200EE"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

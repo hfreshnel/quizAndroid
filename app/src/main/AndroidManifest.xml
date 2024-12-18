@@ -41,6 +41,10 @@
         <activity
             android:name=".participant.ParticipantQuizActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".QuestionQuizActivity"
+            android:exported="false" />
         <activity
             android:name=".participant.ParticipantListQuizActivity"
             android:exported="false" />
