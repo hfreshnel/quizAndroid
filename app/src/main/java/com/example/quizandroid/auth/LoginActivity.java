@@ -78,11 +78,15 @@ public class LoginActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         Toast.makeText(LoginActivity.this, "Connexion réussie : " + mail, Toast.LENGTH_SHORT).show();
 
-                        Intent intent = (role == 1000)
-                                ? new Intent(LoginActivity.this, GetQuizForAdminActivity.class)
-                                : new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                        Intent intent;
+                        if (role == 1000) {
+                            intent = new Intent(LoginActivity.this, GetQuizForAdminActivity.class);
+                        } else {
+                            intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                        }
                         startActivity(intent);
                         finish();
+
                     });
                 } else {
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show());

@@ -60,6 +60,13 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(SignUpActivity.this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // Check password length
+        if (password.length() < 6) {
+            Toast.makeText(SignUpActivity.this, "Le mot de passe doit comporter au moins 6 caractères", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Log.d("SignUpActivity", "Attempting to sign up with email: " + email);
 
         // Create Personne object
@@ -88,4 +95,5 @@ public class SignUpActivity extends AppCompatActivity {
             }
         }).start();
     }
+
 }
