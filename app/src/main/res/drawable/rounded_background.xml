@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- État : Pressé -->
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="#FFDDDD" /> <!-- Couleur d'arrière-plan lorsque l'élément est pressé -->
+            <corners android:radius="16dp" /> <!-- Coins arrondis -->
+        </shape>
+    </item>
+
+    <!-- État : Désactivé -->
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="#A8D694" /> <!-- Couleur d'arrière-plan lorsque l'élément est désactivé -->
+            <corners android:radius="16dp" /> <!-- Coins arrondis -->
+        </shape>
+    </item>
+
+    <!-- État par défaut -->
+    <item>
+        <shape>
+            <solid android:color="#5BC8C7" /> <!-- Couleur d'arrière-plan par défaut -->
+            <stroke
+                android:width="2dp"
+                android:color="#CCCCCC" /> <!-- Bordure grise -->
+            <corners android:radius="16dp" /> <!-- Coins arrondis -->
+        </shape>
+    </item>
+
+</selector>
