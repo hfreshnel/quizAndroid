@@ -92,28 +92,13 @@ public class ConnectionAPI {
 
         try (Response response = client.newCall(request).execute()) {
             String responseBody = response.body() != null ? response.body().string() : "No response body";
-            Log.d("ConnectionAPI", "Response Code: " + response.code());
-            Log.d("ConnectionAPI", "Response Body: " + responseBody);
-
-            if (response.code() == 401 || response.code() == 403) {
-                // Parse error message if possible
-                try {
-                    JSONObject errorJson = new JSONObject(responseBody);
-                    String errorMessage = errorJson.optString("message", "Authentication failed");
-                    throw new IOException(errorMessage);
-                } catch (JSONException e) {
-                    throw new IOException("Authentication failed");
-                }
-            }
-
             if (response.isSuccessful()) {
                 return responseBody;
             } else {
-                throw new IOException("Failed to log in. Code: " + response.code());
+                throw new IOException("Échec de la connexion. Code : " + response.code());
             }
         }
     }
-
 
     public String logoutUser() throws IOException {
         Request request = new Request.Builder()
