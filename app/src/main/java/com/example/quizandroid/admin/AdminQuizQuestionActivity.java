@@ -89,7 +89,7 @@ public class AdminQuizQuestionActivity extends AppCompatActivity {
         });
 
         // Handle "Question suivant" button
-        findViewById(R.id.validerButton2).setOnClickListener(v -> {
+        findViewById(R.id.validerButton).setOnClickListener(v -> {
             if (currentQuestionIndex < questionsList.size() - 1) {
                 currentQuestionIndex++;
                 updateQuestion(nQuestion, questionText);
