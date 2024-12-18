@@ -15,7 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ConnectionAPI {
-    private static final String BASE_URL = "http://10.0.2.2:8080";
+    private static final String BASE_URL = "http://10.3.70.13:8080";
     private final OkHttpClient client;
     private final Gson gson;
 
@@ -126,6 +126,21 @@ public class ConnectionAPI {
                 return response.body().string(); // Devuelve el mensaje del servidor
             } else {
                 throw new IOException("Failed to logout user: " + response.message());
+            }
+        }
+    }
+
+    public String getQuizList() throws IOException {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/public/quiz/") // Update the endpoint if necessary
+                .get()
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                return response.body().string(); // Return the response body as a string
+            } else {
+                throw new IOException("Failed to fetch quiz list. Code: " + response.code() + ", Message: " + response.message());
             }
         }
     }
