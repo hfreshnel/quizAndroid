@@ -37,6 +37,7 @@ public class PersonneAPI {
     public Personne getPersonneById(String id) throws IOException {
         Request request = new Request.Builder()
                 .url(BASE_URL + "/public/personnes/" + id)
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjowLCJpYXQiOjE3MzY1MDM4NjEsImV4cCI6MTczNjU5MDI2MX0.ecvJwShazQBBNX8RsurDxp3NV5BZc2QXTkf6MhXLVXo")
                 .get()
                 .build();
 
