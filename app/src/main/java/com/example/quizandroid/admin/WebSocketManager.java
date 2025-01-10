@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +29,7 @@ public class WebSocketManager {
 
     private WebSocketManager() {
         try {
-            mSocket = IO.socket("http://192.168.1.247:8081");
+            mSocket = IO.socket("http://10.20.7.179:8081");
             mSocket.connect();
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,6 +140,27 @@ public class WebSocketManager {
         }
         return null;
     }
+
+    public static String extractCorrectAnswer(String jsonString) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONArray propositions = jsonObject.getJSONArray("propositions");
+
+            for (int i = 0; i < propositions.length(); i++) {
+                JSONObject proposition = propositions.getJSONObject(i);
+                if (proposition.optInt("correct", 0) == 1) {
+                    return proposition.optString("libelle", "Réponse non définie");
+                }
+            }
+            return "Aucune bonne réponse trouvée.";
+        } catch (JSONException e) {
+            return "Erreur lors du traitement du JSON : " + e.getMessage();
+        } catch (Exception e) {
+            return "Une erreur inattendue s'est produite : " + e.getMessage();
+        }
+    }
+
+
 
 
     /**

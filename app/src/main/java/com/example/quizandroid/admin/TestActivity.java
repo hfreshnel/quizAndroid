@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quizandroid.API.QuestionAPI;
 import com.example.quizandroid.API.QuizAPI;
 import com.example.quizandroid.R;
+import com.example.quizandroid.admin.WebSocketManager;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -20,10 +21,12 @@ public class TestActivity extends AppCompatActivity {
     private TextView tvReceivedQuizJoinedConfirmation, tvReceivedFirstQuestion, tvReceivedNextQuestion, tvReceivedStats,tvReceivedClassement , tvReceivedAnswer,tvReceivedEndQuiz ;
     private Button btnJoinQuiz, btnNextQuestion, btnShowAnswer, btnShowStats, btnEndQuiz2, btnStartQuiz;
 
+    private JsonObject currentQuestion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_test2);
 
         // Initialisation des textViews
         tvReceivedQuizJoinedConfirmation = findViewById(R.id.tvReceivedQuizJoinedConfirmation);
@@ -73,6 +76,7 @@ public class TestActivity extends AppCompatActivity {
                 try {
                     //Extraction des informations importantes recues par le socket
                     JsonObject question = socketManager.extractQuestion2(dataReceived);
+                    currentQuestion = question;
 
                     //Seules les modifications de l'interface utilisateur doivent etre dans runOnUiThread
                     //Les autres traitements doivent etre faits ailleurs
@@ -95,6 +99,8 @@ public class TestActivity extends AppCompatActivity {
                 try {
                     //Extraction des informations importantes recues par le socket
                     JsonObject question = socketManager.extractQuestion2(dataReceived);
+                    currentQuestion = question;
+
 
                     //Seules les modifications de l'interface utilisateur doivent etre dans runOnUiThread
                     //Les autres traitements doivent etre faits ailleurs
@@ -112,6 +118,12 @@ public class TestActivity extends AppCompatActivity {
         socketManager.on("showAnswer", dataReceived -> {
             //Ici on peut afficher la bonne reponse en cherchant la proposition qui a pour champ correct=true
             //Sachant que les propositions sont contnues dans l'objet question renvoyé par l'api
+
+            String answer = WebSocketManager.extractCorrectAnswer(String.valueOf(currentQuestion));
+
+            runOnUiThread(() -> {
+                tvReceivedAnswer.setText(tvReceivedAnswer.getText()+ " "+ answer);
+            });
         });
 
         // Ecouter les statistiques
@@ -172,54 +184,6 @@ public class TestActivity extends AppCompatActivity {
                     int[] questionsIds = QuestionAPI.getAllQuestionsIds(1);
                     JsonObject firstQuestion = QuestionAPI.getQuestion(questionsIds[1]);
 
-                    // Simulation de l'objet renvoyé par l'api des questions
-                    // Créer l'objet principal
-                    JSONObject mainObject = new JSONObject();
-
-                    // Ajouter le champ "data"
-                    JSONObject dataObject = new JSONObject();
-                    dataObject.put("id", 1);
-                    dataObject.put("libelle", "Combien font 2 + 2 ?");
-
-                    // Ajouter les propositions (tableau JSON)
-                    JSONArray propositionsArray = new JSONArray();
-
-                    // Première proposition
-                    JSONObject proposition1 = new JSONObject();
-                    proposition1.put("id", 1);
-                    proposition1.put("correct", 0);
-                    proposition1.put("libelle", "3");
-                    propositionsArray.put(proposition1);
-
-                    // Deuxième proposition
-                    JSONObject proposition2 = new JSONObject();
-                    proposition2.put("id", 2);
-                    proposition2.put("correct", 1);
-                    proposition2.put("libelle", "4");
-                    propositionsArray.put(proposition2);
-
-                    // Troisième proposition
-                    JSONObject proposition3 = new JSONObject();
-                    proposition3.put("id", 3);
-                    proposition3.put("correct", 0);
-                    proposition3.put("libelle", "5");
-                    propositionsArray.put(proposition3);
-
-                    // Quatrième proposition
-                    JSONObject proposition4 = new JSONObject();
-                    proposition4.put("id", 4);
-                    proposition4.put("correct", 0);
-                    proposition4.put("libelle", "6");
-                    propositionsArray.put(proposition4);
-
-                    // Ajouter les propositions à "data"
-                    dataObject.put("propositions", propositionsArray);
-
-                    // Ajouter "data" à l'objet principal
-                    mainObject.put("data", dataObject);
-                    mainObject.put("code", 200);
-                    mainObject.put("error", JSONObject.NULL);
-
                     // Créer l'objet final attendu par le socket
                     JSONObject data = new JSONObject();
                     data.put("quizId", 1);
@@ -234,65 +198,23 @@ public class TestActivity extends AppCompatActivity {
 
         // Passer à la question suivante
         btnNextQuestion.setOnClickListener(v -> {
-            try {
-                //Simulation de l'objet renvoyé par l'api des questions
-                // Créer l'objet principal
-                JSONObject mainObject = new JSONObject();
+            new Thread(() -> {
+                try {
 
-                // Ajouter le champ "data"
-                JSONObject dataObject = new JSONObject();
-                dataObject.put("id", 1);
-                dataObject.put("libelle", "Quelle est la capitale de la France ?");
+                    int[] questionsIds = QuestionAPI.getAllQuestionsIds(1);
+                    JsonObject nextQuestion = QuestionAPI.getQuestion(questionsIds[2]);
 
-                // Ajouter les propositions (tableau JSON)
-                JSONArray propositionsArray = new JSONArray();
+                    // Créer l'objet final attendu par le socket
+                    JSONObject data = new JSONObject();
+                    data.put("quizId",1);
+                    data.put("nextQuestion", nextQuestion);
 
-                // Première proposition
-                JSONObject proposition1 = new JSONObject();
-                proposition1.put("id", 1);
-                proposition1.put("correct", 0);
-                proposition1.put("libelle", "Marseille");
-                propositionsArray.put(proposition1);
-
-                // Deuxième proposition
-                JSONObject proposition2 = new JSONObject();
-                proposition2.put("id", 2);
-                proposition2.put("correct", 1);
-                proposition2.put("libelle", "Paris");
-                propositionsArray.put(proposition2);
-
-                // Troisième proposition
-                JSONObject proposition3 = new JSONObject();
-                proposition3.put("id", 3);
-                proposition3.put("correct", 0);
-                proposition3.put("libelle", "Lyon");
-                propositionsArray.put(proposition3);
-
-                // Quatrième proposition
-                JSONObject proposition4 = new JSONObject();
-                proposition4.put("id", 4);
-                proposition4.put("correct", 0);
-                proposition4.put("libelle", "Rouen");
-                propositionsArray.put(proposition4);
-
-                // Ajouter les propositions à "data"
-                dataObject.put("propositions", propositionsArray);
-
-                // Ajouter "data" à l'objet principal
-                mainObject.put("data", dataObject);
-                mainObject.put("code", 200);
-                mainObject.put("error", JSONObject.NULL);
-
-                // Créer l'objet final attendu par le socket
-                JSONObject data = new JSONObject();
-                data.put("quizId",1);
-                data.put("nextQuestion", mainObject);
-
-                // Envoyer l'objet structuré
-                socketManager.emit("nextQuestion", data);
-            } catch (Exception e) {
-                Log.e(TAG, "Erreur lors de l'envoi du message nextQuestion", e);
-            }
+                    // Envoyer l'objet structuré
+                    socketManager.emit("nextQuestion", data);
+                } catch (Exception e) {
+                    Log.e(TAG, "Erreur lors de l'envoi du message nextQuestion", e);
+                }
+            }).start();
         });
 
         //Afficher la bonne réponse

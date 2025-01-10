@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizandroid.API.ConnectionAPI;
 import com.example.quizandroid.API.QuizAPI;
+import com.example.quizandroid.GetQuizForAdminActivity;
 import com.example.quizandroid.R;
 import com.example.quizandroid.model.Quiz;
 import com.google.gson.Gson;
@@ -69,7 +70,7 @@ public class ParticipantListQuizActivity extends AppCompatActivity {
         new Thread(() -> {
             try {
                 // Fetch quizzes using QuizAPI
-                JsonObject response = QuizAPI.getAllQuizzes();
+                JsonObject response = QuizAPI.getAllQuizzes(this);
                 Log.d("ParticipantListQuizActivity", "Retrieved JSON: " + response.toString());
 
                 // Extract the quiz list from the "data" key in the JSON response

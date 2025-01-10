@@ -22,18 +22,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.SharedPreferences;
+
 public class GetQuizForAdminActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private QuizAdapter adapter; // Using the admin-specific QuizAdapter
+    private QuizAdapter adapter;
     private List<Quiz> quizList;
     private ConnectionAPI connectionAPI;
     private final Gson gson = new Gson();
+    private String authToken; // To store the token
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_quiz_admin);
+
+        // Retrieve the token from SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("QuizAppPrefs", MODE_PRIVATE);
+        authToken = prefs.getString("authToken", null);
+
+        if (authToken == null) {
+            Toast.makeText(this, "Token not found. Please log in again.", Toast.LENGTH_SHORT).show();
+            finish(); // End the activity if the token is missing
+            return;
+        }
 
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
@@ -45,7 +58,6 @@ public class GetQuizForAdminActivity extends AppCompatActivity {
         // Initialize quiz list and adapter
         quizList = new ArrayList<>();
         adapter = new QuizAdapter(quizList, quiz -> {
-            // Handle quiz click for admin
             Intent intent = new Intent(GetQuizForAdminActivity.this, GetQuizForAdminActivity.class);
             intent.putExtra("quizTitle", quiz.getLibelle());
             startActivity(intent);
@@ -62,15 +74,16 @@ public class GetQuizForAdminActivity extends AppCompatActivity {
     private int calculateNumberOfColumns() {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int screenWidth = displayMetrics.widthPixels;
-        int cardWidth = getResources().getDimensionPixelSize(R.dimen.quiz_card_width); // Define in dimens.xml
+        int cardWidth = getResources().getDimensionPixelSize(R.dimen.quiz_card_width);
         return Math.max(1, screenWidth / cardWidth);
     }
 
     private void fetchQuizDetails() {
         new Thread(() -> {
             try {
-                // Fetch quizzes using QuizAPI
-                JsonObject response = QuizAPI.getAllQuizzes();
+                // Pass the context to the API method
+                JsonObject response = QuizAPI.getAllQuizzes(GetQuizForAdminActivity.this);
+
                 Log.d("GetQuizForAdminActivity", "Retrieved JSON: " + response.toString());
 
                 // Extract the quiz list from the "data" key in the JSON response
@@ -87,7 +100,6 @@ public class GetQuizForAdminActivity extends AppCompatActivity {
                 // Update the RecyclerView on the main thread
                 runOnUiThread(() -> updateRecyclerView(notStartedQuizzes));
             } catch (IOException e) {
-                // Handle errors on the main thread
                 runOnUiThread(() -> Toast.makeText(this, "Failed to fetch quizzes: " + e.getMessage(), Toast.LENGTH_LONG).show());
                 Log.e("GetQuizForAdminActivity", "Error fetching quizzes", e);
             }

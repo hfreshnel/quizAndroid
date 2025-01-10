@@ -7,6 +7,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.io.IOException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class QuizAPI {
     private static final String BASE_URL = "http://10.3.70.13:8080";
     private static OkHttpClient client = new OkHttpClient();
@@ -17,14 +31,23 @@ public class QuizAPI {
         this.gson = new Gson();
     }
 
-    public static JsonObject getAllQuizzes() throws IOException {
+    public static JsonObject getAllQuizzes(Context context) throws IOException {
         // Log the start of the method
         Log.d("QuizAPI", "Starting getAllQuizzes method.");
+
+        // Retrieve the token from SharedPreferences
+        SharedPreferences prefs = context.getSharedPreferences("QuizAppPrefs", Context.MODE_PRIVATE);
+        String token = prefs.getString("authToken", null);
+
+        if (token == null) {
+            throw new IOException("Token not found. Please log in again.");
+        }
 
         // Build the GET request
         Request request = new Request.Builder()
                 .url(BASE_URL + "/public/quiz") // Replace with your actual API endpoint
                 .get()
+                .addHeader("Authorization", "Bearer " + token) // Add the token to the Authorization header
                 .build();
 
         Log.d("QuizAPI", "Request built. URL: " + request.url());
@@ -52,6 +75,8 @@ public class QuizAPI {
             throw new IOException("Error during API call to get quizzes.", e);
         }
     }
+
+
 
 
     public JsonObject getQuizDetails() throws IOException {
@@ -123,4 +148,18 @@ public class QuizAPI {
             }
         }
     }
+    public static void startQuiz(String quizId) throws IOException {
+        String url = BASE_URL + "/quizzes/start/" + quizId;
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create("", MediaType.parse("application/json")))
+                .build();
+
+        Response response = client.newCall(request).execute();
+        if (!response.isSuccessful()) {
+            throw new IOException("Unexpected code " + response);
+        }
+    }
+
 }

@@ -63,43 +63,42 @@ public class LoginActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
-                // Call the API to log in the user
                 String response = connectionAPI.loginUser(email, password);
-
-                // Log the raw response for debugging
                 Log.d("LoginActivity", "Response: " + response);
 
-                // Parse the response
                 JSONObject jsonResponse = new JSONObject(response);
                 int code = jsonResponse.optInt("code", -1);
                 String error = jsonResponse.optString("error", "Erreur inconnue");
 
-                // Handle the response on the UI thread
                 runOnUiThread(() -> {
-                    if (code == 200) { // Successful response
+                    if (code == 200) {
                         Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
                         try {
-                            int role = jsonResponse.optInt("role", -1);
-                            String token = jsonResponse.optString("token", null);
+                            JSONObject data = jsonResponse.optJSONObject("data");
+                            int role = data.optInt("role", -1);
+                            String token = data.optString("token", null);
 
                             if (token != null) {
-                                Log.d("LoginActivity", "Token: " + token); // Log the token for debugging
+                                Log.d("LoginActivity", "Token: " + token);
+
+                                // Save the token in SharedPreferences
+                                getSharedPreferences("QuizAppPrefs", MODE_PRIVATE)
+                                        .edit()
+                                        .putString("authToken", token)
+                                        .apply();
                             }
 
-                            // Redirect based on the user's role
-                            Intent intent;
-                            if (role == 1000) { // Admin role
-                                intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
-                            } else { // Simple user role
-                                intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
-                            }
+                            Intent intent = (role == 1000) ?
+                                    new Intent(LoginActivity.this, AdminQuizQuestionActivity.class) :
+                                    new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+
                             startActivity(intent);
                             finish();
                         } catch (Exception e) {
                             Log.e("LoginActivity", "Error processing response", e);
                             Toast.makeText(LoginActivity.this, "Erreur lors de la connexion", Toast.LENGTH_SHORT).show();
                         }
-                    } else { // Failed response
+                    } else {
                         Toast.makeText(LoginActivity.this, "Erreur : " + error, Toast.LENGTH_SHORT).show();
                     }
                 });
