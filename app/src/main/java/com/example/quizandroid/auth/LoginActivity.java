@@ -63,39 +63,55 @@ public class LoginActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
+                // Call the API to log in the user
                 String response = connectionAPI.loginUser(email, password);
+
+                // Log the raw response for debugging
+                Log.d("LoginActivity", "Response: " + response);
 
                 // Parse the response
                 JSONObject jsonResponse = new JSONObject(response);
-                int code = jsonResponse.getInt("code");
-                String error = jsonResponse.isNull("error") ? "Erreur inconnue" : jsonResponse.optString("error");
+                int code = jsonResponse.optInt("code", -1);
+                String error = jsonResponse.optString("error", "Erreur inconnue");
 
-                if (code == 200) {
-                    JSONObject personData = jsonResponse.getJSONObject("data");
-                    String mail = personData.optString("mail", "Email non fourni");
-                    int role = personData.optInt("role", -1);
+                // Handle the response on the UI thread
+                runOnUiThread(() -> {
+                    if (code == 200) { // Successful response
+                        Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
+                        try {
+                            int role = jsonResponse.optInt("role", -1);
+                            String token = jsonResponse.optString("token", null);
 
-                    runOnUiThread(() -> {
-                        Toast.makeText(LoginActivity.this, "Connexion réussie : " + mail, Toast.LENGTH_SHORT).show();
+                            if (token != null) {
+                                Log.d("LoginActivity", "Token: " + token); // Log the token for debugging
+                            }
 
-                        Intent intent = (role == 1000)
-                                ? new Intent(LoginActivity.this, GetQuizForAdminActivity.class)
-                                : new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
-                        startActivity(intent);
-                        finish();
-                    });
-                } else {
-                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show());
-                }
-            } catch (IOException e) {
-                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur réseau: " + e.getMessage(), Toast.LENGTH_LONG).show());
-                Log.e("LoginActivity", "Network error", e);
+                            // Redirect based on the user's role
+                            Intent intent;
+                            if (role == 1000) { // Admin role
+                                intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
+                            } else { // Simple user role
+                                intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                            }
+                            startActivity(intent);
+                            finish();
+                        } catch (Exception e) {
+                            Log.e("LoginActivity", "Error processing response", e);
+                            Toast.makeText(LoginActivity.this, "Erreur lors de la connexion", Toast.LENGTH_SHORT).show();
+                        }
+                    } else { // Failed response
+                        Toast.makeText(LoginActivity.this, "Erreur : " + error, Toast.LENGTH_SHORT).show();
+                    }
+                });
             } catch (JSONException e) {
-                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur JSON: " + e.getMessage(), Toast.LENGTH_LONG).show());
-                Log.e("LoginActivity", "JSON parsing error", e);
+                Log.e("LoginActivity", "JSON Parsing Error", e);
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            } catch (IOException e) {
+                Log.e("LoginActivity", "Network Error", e);
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Erreur réseau: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         }).start();
     }
 
-}
 
+}
