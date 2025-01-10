@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Redirect based on the user's role
                             Intent intent;
                             if (role == 1000) { // Admin role
-                                intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
+                                intent = new Intent(LoginActivity.this, GetQuizForAdminActivity.class);
                             } else { // Simple user role
                                 intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
                             }
