@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:padding="16dp">
+
+<TextView
+    android:id="@+id/tvReceivedQuizJoinedConfirmation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0F0F0"
+    android:padding="8dp"
+    android:text="Quiz Rejoint ? "
+    android:textColor="#000"
+    android:textSize="16sp" />
+
+<TextView
+    android:id="@+id/tvReceivedFirstQuestion"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0F0F0"
+    android:padding="8dp"
+    android:text="First Question : "
+    android:textColor="#000"
+    android:textSize="16sp" />
+
+<TextView
+    android:id="@+id/tvReceivedNextQuestion"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0F0F0"
+    android:padding="8dp"
+    android:text="Next Question : "
+    android:textColor="#000"
+    android:textSize="16sp" />
+
+<TextView
+    android:id="@+id/tvReceivedStats"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0F0F0"
+    android:padding="8dp"
+    android:text="Statistiques : "
+    android:textColor="#000"
+    android:textSize="16sp" />
+
+<TextView
+    android:id="@+id/tvReceivedClassement"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0F0F0"
+    android:padding="8dp"
+    android:text="Classement : "
+    android:textColor="#000"
+    android:textSize="16sp" />
+
+<TextView
+    android:id="@+id/tvReceivedAnswer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0F0F0"
+    android:padding="8dp"
+    android:text="Bonne Réponse : "
+    android:textColor="#000"
+    android:textSize="16sp" />
+
+<TextView
+    android:id="@+id/tvReceivedEndQuiz"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0F0F0"
+    android:padding="8dp"
+    android:text="Fin du quiz ? "
+    android:textColor="#000"
+    android:textSize="16sp" />
+
+<Button
+    android:id="@+id/btnJoinQuiz"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Rejoindre un quiz"
+    android:layout_marginTop="16dp"
+    android:padding="8dp" />
+
+<Button
+    android:id="@+id/btnStartQuiz"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Commencer un quiz"
+    android:layout_marginTop="16dp"
+    android:padding="8dp" />
+
+<Button
+    android:id="@+id/btnNextQuestion2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="NextQuestion"
+    android:layout_marginTop="16dp"
+    android:padding="8dp" />
+
+<Button
+    android:id="@+id/btnShowAnswer2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="ShowAnswer"
+    android:layout_marginTop="16dp"
+    android:padding="8dp" />
+
+<Button
+    android:id="@+id/btnShowStats2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="ShowStats"
+    android:layout_marginTop="16dp"
+    android:padding="8dp" />
+
+<Button
+    android:id="@+id/btnEndQuiz2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="EndQuiz"
+    android:layout_marginTop="16dp"
+    android:padding="8dp" />
+
+</LinearLayout>
+
