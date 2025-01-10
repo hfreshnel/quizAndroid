@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizandroid.API.ConnectionAPI;
 import com.example.quizandroid.API.QuizAPI;
 import com.example.quizandroid.R;
+import com.example.quizandroid.admin.AdminClassementActivity;
 import com.example.quizandroid.model.Quiz;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -45,9 +46,17 @@ public class ParticipantListQuizActivity extends AppCompatActivity {
         // Initialize quiz list and adapter
         quizList = new ArrayList<>();
         adapter = new QuizAdapter(quizList, quiz -> {
-            Intent intent = new Intent(ParticipantListQuizActivity.this, ParticipantQuizActivity.class);
-            intent.putExtra("quizTitle", quiz.getLibelle());
-            startActivity(intent);
+            if (quiz.getEtat() == 10) {
+                // Start quiz activity
+                Intent intent = new Intent(ParticipantListQuizActivity.this, ParticipantQuizActivity.class);
+                intent.putExtra("quizTitle", quiz.getLibelle());
+                startActivity(intent);
+            } else if (quiz.getEtat() == 20) {
+                // Open leaderboard activity
+                Intent intent = new Intent(ParticipantListQuizActivity.this, AdminClassementActivity.class);
+                intent.putExtra("quizId", quiz.getId()); // Pass the quiz ID
+                startActivity(intent);
+            }
         });
         recyclerView.setAdapter(adapter);
 
@@ -83,8 +92,6 @@ public class ParticipantListQuizActivity extends AppCompatActivity {
             }
         }).start();
     }
-
-
 
     private void updateRecyclerView(List<Quiz> quizzes) {
         quizList.clear();
