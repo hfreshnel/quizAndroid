@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class StatAPI {
-    private static final String BASE_URL = "https://example.com";
+    private static final String BASE_URL = "http://10.3.70.13:8080";
     private final OkHttpClient client;
     private final Gson gson;
 

@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class PersonneAPI {
-    private static final String BASE_URL = "https://example.com";
+    private static final String BASE_URL = "http://10.3.70.13:8080";
     private final OkHttpClient client;
     private final Gson gson;
 
@@ -37,6 +37,7 @@ public class PersonneAPI {
     public Personne getPersonneById(String id) throws IOException {
         Request request = new Request.Builder()
                 .url(BASE_URL + "/public/personnes/" + id)
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjowLCJpYXQiOjE3MzY1MDM4NjEsImV4cCI6MTczNjU5MDI2MX0.ecvJwShazQBBNX8RsurDxp3NV5BZc2QXTkf6MhXLVXo")
                 .get()
                 .build();
 

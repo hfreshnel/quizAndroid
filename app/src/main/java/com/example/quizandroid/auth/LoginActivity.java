@@ -25,6 +25,7 @@ import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static  String token;
     private EditText inputEmail, inputPassword;
     private Button loginButton;
     private TextView linkToRegister;
@@ -63,42 +64,48 @@ public class LoginActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
+                // Call the API to log in the user
                 String response = connectionAPI.loginUser(email, password);
+
+                // Log the raw response for debugging
                 Log.d("LoginActivity", "Response: " + response);
 
+                // Parse the response
                 JSONObject jsonResponse = new JSONObject(response);
                 int code = jsonResponse.optInt("code", -1);
                 String error = jsonResponse.optString("error", "Erreur inconnue");
 
+                // Handle the response on the UI thread
                 runOnUiThread(() -> {
-                    if (code == 200) {
+                    if (code == 200) { // Successful response
                         Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
                         try {
                             JSONObject data = jsonResponse.optJSONObject("data");
-                            int role = data.optInt("role", -1);
-                            String token = data.optString("token", null);
+                            if (data != null) {
+                                token = data.optString("token", null); // Assign token to the public variable
 
-                            if (token != null) {
-                                Log.d("LoginActivity", "Token: " + token);
-
-                                // Save the token in SharedPreferences
-                                getSharedPreferences("QuizAppPrefs", MODE_PRIVATE)
-                                        .edit()
-                                        .putString("authToken", token)
-                                        .apply();
+                                if (token != null) {
+                                    // Log the token for debugging
+                                    Log.d("LoginActivity", "Token: " + token);
+                                }
                             }
 
-                            Intent intent = (role == 1000) ?
-                                    new Intent(LoginActivity.this, AdminQuizQuestionActivity.class) :
-                                    new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                            int role = data != null ? data.optInt("role", -1) : -1;
 
+                            // Redirect based on the user's role
+                            Intent intent;
+                            if (role == 1000) { // Admin role
+                                intent = new Intent(LoginActivity.this, GetQuizForAdminActivity.class);
+                            } else { // Simple user role
+                                intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
+                            }
                             startActivity(intent);
                             finish();
                         } catch (Exception e) {
                             Log.e("LoginActivity", "Error processing response", e);
                             Toast.makeText(LoginActivity.this, "Erreur lors de la connexion", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
+                    } else { // Failed response
                         Toast.makeText(LoginActivity.this, "Erreur : " + error, Toast.LENGTH_SHORT).show();
                     }
                 });
