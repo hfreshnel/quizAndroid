@@ -1,5 +1,6 @@
 package com.example.quizandroid.participant;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,17 +56,21 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         }
 
         holder.description.setText(date);
-
+        String s= String.valueOf(quiz.getEtat());
+        Log.d("QuizAdapter", s);
         // Update button text based on "etat"
         switch (quiz.getEtat()) {
             case 10:
                 holder.startButton.setText("Rejoindre"); // Join
+                holder.startButton.setVisibility(View.VISIBLE); // Ensure the button is visible
                 break;
             case 20:
                 holder.startButton.setText("Consulter les statistiques"); // See statistics
+                holder.startButton.setVisibility(View.VISIBLE); // Ensure the button is visible
                 break;
             default:
-                holder.startButton.setText("Commencer le quiz"); // Start the quiz
+                holder.description.setText("Ça n'a pas commencé"); // Update description
+                holder.startButton.setVisibility(View.GONE); // Hide the button
                 break;
         }
 

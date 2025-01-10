@@ -20,11 +20,9 @@
         android:theme="@style/Theme.QuizAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".admin.TestActivity"
+            android:name=".admin.StartQuizActivity"
             android:exported="false" />
-        <activity
-            android:name=".admin.WebSocketActivity"
-            android:exported="false" /> <!-- Activities from featureAdminQuiz -->
+        <!-- Activities from featureAdminQuiz -->
         <activity
             android:name=".CreerQuizActivity"
             android:exported="false" />
