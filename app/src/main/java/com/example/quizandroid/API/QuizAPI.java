@@ -1,8 +1,12 @@
 package com.example.quizandroid.API;
 
+import static com.example.quizandroid.auth.LoginActivity.token;
+
 import android.util.Log;
 
 import okhttp3.*;
+
+import com.example.quizandroid.auth.LoginActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;
@@ -24,6 +28,8 @@ public class QuizAPI {
         // Build the GET request
         Request request = new Request.Builder()
                 .url(BASE_URL + "/public/quiz") // Replace with your actual API endpoint
+                .header("Authorization", "Bearer " + token)
+
                 .get()
                 .build();
 

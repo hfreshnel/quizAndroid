@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 
 public class QuestionAPI {
-    private static final String BASE_URL = "https://example.com";
+    private static final String BASE_URL = "http://10.3.70.13:8080";
     private final OkHttpClient client;
     private final Gson gson;
 
@@ -15,9 +15,10 @@ public class QuestionAPI {
         this.gson = new Gson();
     }
 
-    public JsonObject getAllQuizzes(long id) throws IOException {
+    // GET: Retrieve a specific question by ID
+    public JsonObject getQuestionById(long questionId) throws IOException {
         Request request = new Request.Builder()
-                .url(BASE_URL + "/admin/quiz/" + id)
+                .url(BASE_URL + "/public/questions/" + questionId)
                 .get()
                 .build();
 
@@ -25,34 +26,20 @@ public class QuestionAPI {
             if (response.isSuccessful() && response.body() != null) {
                 return gson.fromJson(response.body().string(), JsonObject.class);
             } else {
-                throw new IOException("Failed to retrieve quizzes: " + response.message());
+                throw new IOException("Failed to retrieve question: " + response.message());
             }
         }
     }
 
-    public JsonObject getQuizDetails(long id) throws IOException {
-        Request request = new Request.Builder()
-                .url(BASE_URL + "/public/quiz/" + id)
-                .get()
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
-                return gson.fromJson(response.body().string(), JsonObject.class);
-            } else {
-                throw new IOException("Failed to retrieve quiz details: " + response.message());
-            }
-        }
-    }
-
-    public JsonObject createQuiz(JsonObject quiz) throws IOException {
+    // POST: Create a new question
+    public JsonObject createQuestion(JsonObject question) throws IOException {
         RequestBody body = RequestBody.create(
-                gson.toJson(quiz),
+                gson.toJson(question),
                 MediaType.get("application/json; charset=utf-8")
         );
 
         Request request = new Request.Builder()
-                .url(BASE_URL + "/admin/quiz")
+                .url(BASE_URL + "/admin/questions")
                 .post(body)
                 .build();
 
@@ -60,19 +47,20 @@ public class QuestionAPI {
             if (response.isSuccessful() && response.body() != null) {
                 return gson.fromJson(response.body().string(), JsonObject.class);
             } else {
-                throw new IOException("Failed to create quiz: " + response.message());
+                throw new IOException("Failed to create question: " + response.message());
             }
         }
     }
 
-    public JsonObject updateQuiz(long id, JsonObject quiz) throws IOException {
+    // PUT: Update a specific question by ID
+    public JsonObject updateQuestion(long questionId, JsonObject question) throws IOException {
         RequestBody body = RequestBody.create(
-                gson.toJson(quiz),
+                gson.toJson(question),
                 MediaType.get("application/json; charset=utf-8")
         );
 
         Request request = new Request.Builder()
-                .url(BASE_URL + "/admin/quiz/" + id)
+                .url(BASE_URL + "/admin/questions/" + questionId)
                 .put(body)
                 .build();
 
@@ -80,14 +68,15 @@ public class QuestionAPI {
             if (response.isSuccessful() && response.body() != null) {
                 return gson.fromJson(response.body().string(), JsonObject.class);
             } else {
-                throw new IOException("Failed to update quiz: " + response.message());
+                throw new IOException("Failed to update question: " + response.message());
             }
         }
     }
 
-    public JsonObject deleteQuiz(long id) throws IOException {
+    // DELETE: Delete a specific question by ID
+    public JsonObject deleteQuestion(long questionId) throws IOException {
         Request request = new Request.Builder()
-                .url(BASE_URL + "/admin/quiz/" + id)
+                .url(BASE_URL + "/admin/questions/" + questionId)
                 .delete()
                 .build();
 
@@ -95,7 +84,7 @@ public class QuestionAPI {
             if (response.isSuccessful() && response.body() != null) {
                 return gson.fromJson(response.body().string(), JsonObject.class);
             } else {
-                throw new IOException("Failed to delete quiz: " + response.message());
+                throw new IOException("Failed to delete question: " + response.message());
             }
         }
     }
