@@ -72,6 +72,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                 holder.description.setText("Ça n'a pas commencé"); // Update description
                 holder.startButton.setVisibility(View.GONE); // Hide the button
                 break;
+
         }
 
         // Set click listener for the button
