@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class PropositionAPI {
-    private static final String BASE_URL = "https://example.com";
+    private static final String BASE_URL = "http://10.3.70.13:8080";
     private final OkHttpClient client;
     private final Gson gson;
 
@@ -37,7 +37,8 @@ public class PropositionAPI {
     // GET /public/propositions/{id}
     public Proposition getPropositionById(Long id) throws IOException {
         Request request = new Request.Builder()
-                .url(BASE_URL + "/public/propositions/" + id)
+                // Update the endpoint
+                .url(BASE_URL + "/public/proposition/" + id)
                 .get()
                 .build();
 
