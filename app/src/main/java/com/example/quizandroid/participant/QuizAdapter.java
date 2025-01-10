@@ -1,5 +1,6 @@
 package com.example.quizandroid.participant;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizandroid.R;
 import com.example.quizandroid.model.Quiz;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
-    private List<Quiz> quizList;
-    private OnQuizClickListener listener;
+
+    private final List<Quiz> quizList;
+    private final OnQuizClickListener listener;
 
     // Interface for handling quiz click events
     public interface OnQuizClickListener {
@@ -39,12 +42,42 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     @Override
     public void onBindViewHolder(@NonNull QuizViewHolder holder, int position) {
         Quiz quiz = quizList.get(position);
-        holder.title.setText(quiz.getTitle());
-        holder.description.setText(quiz.getDescription());
 
-        // Set on click listener for the "Start Quiz" button
+        // Set quiz title
+        holder.title.setText(quiz.getLibelle());
+
+        // Format the Timestamp to extract only the date part
+        String date;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Define desired date format
+            date = dateFormat.format(quiz.getDateDebutQuiz()); // Format the Timestamp
+        } catch (Exception e) {
+            date = "Invalid date"; // Fallback in case of an error
+        }
+
+        holder.description.setText(date);
+        String s= String.valueOf(quiz.getEtat());
+        Log.d("QuizAdapter", s);
+        // Update button text based on "etat"
+        switch (quiz.getEtat()) {
+            case 10:
+                holder.startButton.setText("Rejoindre"); // Join
+                holder.startButton.setVisibility(View.VISIBLE); // Ensure the button is visible
+                break;
+            case 20:
+                holder.startButton.setText("Consulter les statistiques"); // See statistics
+                holder.startButton.setVisibility(View.VISIBLE); // Ensure the button is visible
+                break;
+            default:
+                holder.description.setText("Ça n'a pas commencé"); // Update description
+                holder.startButton.setVisibility(View.GONE); // Hide the button
+                break;
+        }
+
+        // Set click listener for the button
         holder.startButton.setOnClickListener(v -> listener.onQuizClick(quiz));
     }
+
 
     @Override
     public int getItemCount() {
@@ -64,4 +97,3 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         }
     }
 }
-

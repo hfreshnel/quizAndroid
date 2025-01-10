@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="#FFFFFF">
+
+    <!-- GIF ImageView -->
+    <ImageView
+        android:id="@+id/loading_gif"
+        android:layout_width="wrap_content"
+        android:layout_height="285dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/wait" />
+
+    <!-- Quiz Name -->
+    <TextView
+        android:id="@+id/quiz_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Nom du quiz"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Participants Count -->
+    <TextView
+        android:id="@+id/participants_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Participants rejoints: 0"
+        android:textSize="16sp"
+        android:textColor="#555555"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Start Quiz Button -->
+    <Button
+        android:id="@+id/start_quiz_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#5BC8C7"
+        android:padding="12dp"
+        android:text="Démarrer le quiz"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+</LinearLayout>
