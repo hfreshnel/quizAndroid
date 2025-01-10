@@ -47,15 +47,15 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         holder.title.setText(quiz.getLibelle());
 
         // Format the Timestamp to extract only the date part
-        String date;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Define desired date format
-            date = dateFormat.format(quiz.getDateDebutQuiz()); // Format the Timestamp
-        } catch (Exception e) {
-            date = "Invalid date"; // Fallback in case of an error
-        }
+//        String date;
+//        try {
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Define desired date format
+//            date = dateFormat.format(quiz.getDateDebutQuiz()); // Format the Timestamp
+//        } catch (Exception e) {
+//            date = "Invalid date"; // Fallback in case of an error
+//        }
 
-        holder.description.setText(date);
+//        holder.description.setText(date);
         String s= String.valueOf(quiz.getEtat());
         Log.d("QuizAdapter", s);
         // Update button text based on "etat"

@@ -71,25 +71,16 @@ public class GetQuizForAdminActivity extends AppCompatActivity {
             try {
                 // Fetch quizzes using QuizAPI
                 JsonObject response = QuizAPI.getAllQuizzes();
-                Log.d("GetQuizForAdminActivity", "Retrieved JSON: " + response.toString());
+                Log.d("AdminListQuizActivity", "Retrieved JSON: " + response.toString());
 
                 // Extract the quiz list from the "data" key in the JSON response
                 List<Quiz> quizzes = gson.fromJson(response.getAsJsonArray("data"), new TypeToken<List<Quiz>>() {}.getType());
 
-                // Filter quizzes to include only those with etat == 0
-                List<Quiz> notStartedQuizzes = new ArrayList<>();
-                for (Quiz quiz : quizzes) {
-                    if (quiz.getEtat() == 0) {
-                        notStartedQuizzes.add(quiz);
-                    }
-                }
-
-                // Update the RecyclerView on the main thread
-                runOnUiThread(() -> updateRecyclerView(notStartedQuizzes));
+                runOnUiThread(() -> updateRecyclerView(quizzes));
             } catch (IOException e) {
                 // Handle errors on the main thread
                 runOnUiThread(() -> Toast.makeText(this, "Failed to fetch quizzes: " + e.getMessage(), Toast.LENGTH_LONG).show());
-                Log.e("GetQuizForAdminActivity", "Error fetching quizzes", e);
+                Log.e("AdminListQuizActivity", "Error fetching quizzes", e);
             }
         }).start();
     }

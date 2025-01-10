@@ -25,6 +25,7 @@ import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static  String token;
     private EditText inputEmail, inputPassword;
     private Button loginButton;
     private TextView linkToRegister;
@@ -79,17 +80,22 @@ public class LoginActivity extends AppCompatActivity {
                     if (code == 200) { // Successful response
                         Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
                         try {
-                            int role = jsonResponse.optInt("role", -1);
-                            String token = jsonResponse.optString("token", null);
+                            JSONObject data = jsonResponse.optJSONObject("data");
+                            if (data != null) {
+                                token = data.optString("token", null); // Assign token to the public variable
 
-                            if (token != null) {
-                                Log.d("LoginActivity", "Token: " + token); // Log the token for debugging
+                                if (token != null) {
+                                    // Log the token for debugging
+                                    Log.d("LoginActivity", "Token: " + token);
+                                }
                             }
+
+                            int role = data != null ? data.optInt("role", -1) : -1;
 
                             // Redirect based on the user's role
                             Intent intent;
                             if (role == 1000) { // Admin role
-                                intent = new Intent(LoginActivity.this, AdminQuizQuestionActivity.class);
+                                intent = new Intent(LoginActivity.this, GetQuizForAdminActivity.class);
                             } else { // Simple user role
                                 intent = new Intent(LoginActivity.this, ParticipantListQuizActivity.class);
                             }
